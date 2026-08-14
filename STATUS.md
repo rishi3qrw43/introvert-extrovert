@@ -30,9 +30,9 @@ data/                the two datasets (not tracked by git)
 
 **To run:** open Terminal in this folder, then `python3 src/models.py`
 
-**Important:** your machine is the source of truth. Claude's sandbox runs an older Python and
-cannot install the same scikit-learn version, so its Random Forest numbers on MIES differ by
-about 0.002. Your output is what goes in the paper.
+**Note on versions:** results were produced with the exact package versions pinned in
+requirements.txt. Random Forest results on MIES shift by roughly 0.002 under older scikit-learn
+releases, so the pinned versions matter for exact reproduction.
 
 ---
 

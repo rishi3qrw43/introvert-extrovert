@@ -1,0 +1,10 @@
+condition,model,n,accuracy,test_rows_seen_in_training
+de-duplicated,Gradient Boosting,2414,0.9441,0.0
+duplicated before split,Gradient Boosting,17400,0.9293,0.944
+original,Gradient Boosting,2900,0.9241,0.279
+de-duplicated,Logistic Regression,2414,0.9441,0.0
+duplicated before split,Logistic Regression,17400,0.9141,0.944
+original,Logistic Regression,2900,0.9121,0.279
+de-duplicated,Random Forest,2414,0.9358,0.0
+duplicated before split,Random Forest,17400,0.9658,0.944
+original,Random Forest,2900,0.9103,0.279

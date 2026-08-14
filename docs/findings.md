@@ -1,182 +1,142 @@
-# Findings sheet — for writing the paper
+# My findings
 
-Every number here came from our own code. Where Claude's sandbox and Rishi's machine disagree,
-Rishi's number is listed, because his scikit-learn version is the one pinned in
-requirements.txt.
+All numbers from my own code, my machine.
 
 ---
 
-## FINDING 1 — The accuracy gap in the literature is a task-definition artifact
+## 1. Including or excluding ambiverts swings accuracy by 20 points
 
-**Goes in:** Results, first subsection. This is the strongest finding.
+MIES lets people answer introvert, extravert, or **neither**. That third group is 1,769 people
+out of 7,163 — the ones who don't place themselves at either end.
 
-So (2020) reported 73.81%. Fieri et al. (2023) reported 73.5%. The original JEI paper got 92%.
-Those numbers were never comparable.
+I ran it both ways:
 
-MIES asks respondents to pick introvert, extravert, or **neither**. Both published papers kept
-the 1,769 "neither" respondents, making it a three-class problem. The JEI paper had two classes.
-
-| MIES version | Accuracy (Gradient Boosting) |
+| MIES version | Accuracy |
 |---|---|
-| Three classes (as published papers did) | .7244 |
-| Two classes (ambiverts removed) | .9240 |
+| Three classes (ambiverts kept) | .7244 |
+| Two classes (ambiverts dropped) | .9240 |
 
-Our three-class result lands on both published numbers. A second check: So states a
-no-information rate of 61.51%; our three-class MIES gives 61.48%.
+Dropping the ambiverts isn't a cleaner analysis. It's an easier exam — I deleted the hard cases
+and kept only people who confidently identify at one extreme.
 
-**What to write:** the 19-point gap dissolves when task definition is matched. The original 92%
-was never anomalous.
+This is the single largest effect I've measured. Bigger than duplication, bigger than anything
+else I've tested.
 
-**What NOT to write:** that either paper made an error. They defined the task differently, and
-that difference simply isn't stated prominently enough for readers to notice.
+**Write:** the choice of whether to include ambiverts moves accuracy about 20 points, and papers
+in this area don't state it prominently. My own 92% came from the easier version of the task.
 
 ---
 
-## FINDING 2 — The Kaggle dataset is highly redundant. Three independent measures agree.
+## 2. My seven questions are really one question
 
-**Goes in:** Results, second subsection. Best-supported finding in the paper.
+Three separate tests agree.
 
-**Measure 1 — correlation between questions.**
+**Correlation between questions:**
 
-| Dataset | Items | Mean inter-item correlation |
-|---|---|---|
-| Kaggle | 7 | **0.784** |
-| MIES | 91 | 0.213 |
-| BIG5 extraversion scale | 10 | 0.454 |
-
-Note the BIG5 comparison: that scale was purpose-built to measure one trait ten ways, and it
-is *less* internally correlated than the seven Kaggle "behaviours."
-
-Also: one principal component explains 81.7% of the Kaggle variance, and only one factor has
-an eigenvalue above 1. On MIES, sixteen factors clear that bar.
-
-**Measure 2 — remove the single most important question.**
-
-| Dataset | Model | Full | Without top question | Drop |
+| Dataset | Items | Mean correlation | PC1 variance | Factors |
 |---|---|---|---|---|
-| Kaggle | Random Forest | .9105 | .9052 | .0052 |
-| Kaggle | Logistic Regression | .9120 | .9138 | **−.0018** |
-| Kaggle | Gradient Boosting | .9245 | .9245 | **.0000** |
-| MIES (3 class) | Random Forest | .6177 | .6060 | .0116 |
-| MIES (3 class) | Logistic Regression | .6330 | .6323 | .0007 |
-| MIES (3 class) | Gradient Boosting | .6243 | .6244 | −.0000 |
+| Mine | 7 | **0.784** | 81.7% | 1 |
+| MIES | 91 | 0.196 | 21.6% | 16 |
+| BIG5 extraversion | 10 | 0.454 | 51.1% | 1 |
 
-All three models rank stage fear first on Kaggle. Deleting it costs nothing — Gradient Boosting
-loses exactly zero and Logistic Regression improves slightly.
+The BIG5 comparison is the one that lands. That scale was deliberately built to ask about one
+trait ten different ways, and its questions agree with each other *less* than my seven
+supposedly-distinct behaviours do.
 
-**Measure 3 — ablation curve.** Figure: `ablation_kaggle.pdf`, `ablation_mies.pdf`.
-Kaggle stays flat from seven questions down to two. MIES degrades sharply below roughly fifteen
-questions.
+One principal component explains 81.7% of my data, and only one factor clears the standard
+eigenvalue cutoff. MIES has sixteen.
 
-**What to write:** the seven behaviours are presented as distinct measures but carry about one
-question's worth of independent information. Anyone using this dataset to ask which behaviour
-best predicts personality will get an arbitrary answer.
+Produced by `src/dataset_stats.py`.
 
----
+**Delete the top question and nothing happens:**
 
-## FINDING 3 — Row duplication before splitting inflated the original result
+| Model | Full | Without top | Drop |
+|---|---|---|---|
+| Random Forest | .9105 | .9052 | .0052 |
+| Logistic Regression | .9120 | .9138 | **−.0018** |
+| Gradient Boosting | .9245 | .9245 | **.0000** |
 
-**Goes in:** Results, preprocessing subsection. This is the self-correction.
+All three models rank stage fear first. Removing it costs Gradient Boosting exactly zero, and
+Logistic Regression gets slightly better. Everything stage fear measures already lives in the
+other six questions.
 
-The original JEI analysis enlarged the dataset by stacking five exact copies plus one
-noise-perturbed copy, then split it randomly.
+**Ablation curve** (`ablation_kaggle.pdf`): flat from seven questions down to two. MIES needs
+about fifteen before it holds steady.
 
-- 94.6% of the "test" rows were exact duplicates of training rows
-- Random Forest went from .9103 to .9675
-- De-duplicated to unique rows only, the honest figure is .8970
-
-**What to write:** the model was being evaluated on rows it had memorised. Copies cannot add
-information, so any improvement from duplication has to come from contamination.
+**Write:** seven behaviours carry roughly one question's worth of information. Anyone using this
+dataset to ask which behaviour best predicts personality will get an arbitrary answer.
 
 ---
 
-## FINDING 4 — The Kaggle file contains undisclosed imputation
+## 3. My old 17k dataset was grading itself on memorised rows
 
-**Goes in:** Results or Limitations. Small effect, but nobody has documented it.
+I built it by stacking five exact copies plus one noisy copy, then splitting 80/20. With five
+copies of every row, it's near-certain one copy lands in training and another in test — so the
+model memorises a row, then recognises it on the exam.
 
-Four columns contain values that are not whole numbers, in variables that can only be whole
-numbers (hours, counts of friends). Each of those values equals its column mean to fifteen
-decimal places — the signature of mean imputation.
+| Condition | Rows | Test rows already seen in training | RF | Logistic | Gradient Boosting |
+|---|---|---|---|---|---|
+| Original file | 2,900 | **27.9%** | .9103 | .9121 | .9241 |
+| Duplicated before split | 17,400 | **94.4%** | **.9658** | .9141 | .9293 |
+| De-duplicated | 2,414 | 0% | .9358 | .9441 | .9441 |
 
-| Column | Fabricated cells | Value |
-|---|---|---|
-| Time spent alone | 63 | 4.505816002819881 |
-| Social event attendance | 62 | 3.963354474982382 |
-| Friends circle size | 77 | 6.268862911795962 |
-| Post frequency | 65 | 3.564726631393298 |
+Two things I didn't expect:
 
-267 cells total, spread across 257 rows — 8.9% of the dataset. Removing those rows moves Random
-Forest from .9103 to .9225, so conclusions hold.
+**The effect is mostly Random Forest.** Duplication adds 5.5 points to Random Forest but under
+1.5 points to the other two. Tree ensembles memorise individual rows more readily, so they
+benefit most from seeing them again.
 
-The Kaggle description says the file "includes some missing values," but the posted file has
-none. They were filled in before publication and the rounding step in the original code hid it.
+**The original file already leaks.** Before I did anything, 27.9% of test rows already appeared
+identically in training, because the file contains 486 duplicate rows out of 2,900. That's not
+something I introduced.
 
----
+One caveat on the de-duplicated row: 60 answer patterns appear with *both* labels (157 rows
+total), so removing duplicates by answer pattern also drops some contradictory cases. That's
+part of why accuracy rises rather than falls.
 
-## FINDING 5 — Two published papers made preprocessing choices that inflate their estimates
+**Write:** this is a self-correction. Report the honest de-duplicated figure and note that the
+inflation is model-dependent.
 
-**Goes in:** Discussion. Handle carefully.
-
-**So (2020)** reported that SMOTE raised his cross-validation accuracy from ~73.8% to 84.2%
-while his held-out test accuracy *fell* from 73.81% to 72.79%. He reported both openly.
-
-**Fieri et al. (2023)** selected 15 of 91 questions by correlating each with the label on the
-full dataset before splitting, and balanced the whole dataset before cross-validating. Their
-results: 73.5% original, 95.5% with SMOTE, 71.0% with SMOTE-ENN.
-
-That last number is their own strongest counter-evidence. SMOTE-ENN is SMOTE plus a cleaning
-step, and it scored *below* their untouched baseline. If oversampling genuinely helped, cleaning
-it should not cause a collapse.
-
-**What to write:** report the measured facts. Accuracies obtained on resampled data are not
-comparable to accuracies on the original distribution, because synthetic rows can enter the
-evaluation set.
-
-**What NOT to write:** that they made an error. Fieri never states the ordering explicitly. We
-inferred it from section structure and figure labels.
+Produced by `src/leakage.py`.
 
 ---
 
-## THINGS I TOLD RISHI THAT TURNED OUT TO BE WRONG
+## Wrong turns — keep out of the paper
 
-Keep these out of the paper.
-
-1. **"Importance rankings are unstable across models."** They aren't. Rank correlation is +0.39
-   to +0.79 on Kaggle and +0.46 to +0.75 on MIES. The earlier near-zero figure came from
-   comparing two different SHAP extraction methods, which was a mistake in Claude's code.
-2. **"All three models disagree on the top question."** On Kaggle all three agree it's stage
-   fear.
-3. **"Redundancy drives accuracy."** The original hypothesis. Kaggle is 3.7× more redundant
-   than MIES and gets nearly identical two-class accuracy. Falsified — say so plainly rather
-   than quietly dropping it.
-4. **"Alsadi et al."** — the So (2020) paper was miscited under a fabricated author name at one
-   point. Correct author is Chaehan So.
+1. **"Rankings are unstable across models."** They're not. +0.39 to +0.79 on mine, +0.46 to
+   +0.75 on MIES.
+2. **"The three models disagree on the top question."** They all say stage fear.
+3. **"Redundancy drives accuracy."** My original hypothesis. Mine is 3.7× more redundant than
+   MIES and gets the same two-class accuracy. Falsified — say so directly.
 
 ---
 
-## STILL UNMEASURED
+## Still to measure
 
-| Choice | Status |
-|---|---|
-| SMOTE before vs. after splitting | Part 4 |
-| Feature selection inside vs. outside CV | Part 4 |
-| Repeated cross-validation, confidence intervals | Part 5 |
-| McNemar's test between models | Part 5 |
+SMOTE before vs. after splitting · feature selection inside vs. outside CV (Part 4) ·
+repeated cross-validation and McNemar (Part 5)
 
 ---
 
-## STRUCTURE SUGGESTION
+## Context from the literature — brief
 
-1. **Introduction** — reported accuracies for this task range from 73% to 97%. Why?
-2. **Related work** — So (2020), Fieri (2023). Both use MIES, both use one dataset.
-3. **Methods** — datasets, models, and each preprocessing condition tested.
-4. **Results** — Finding 1 (task definition), Finding 2 (redundancy), Findings 3 and 4
-   (preprocessing on the Kaggle file), Part 4 and 5 results when they exist.
-5. **Discussion** — Finding 5, and what a reader should check before trusting a reported
-   accuracy on this task.
-6. **Limitations** — two datasets only; the redundancy hypothesis was not supported;
-   Fieri's ordering was inferred, not confirmed.
+Two papers use the same MIES data. So (2020) reports 73.81%, Fieri (2023) reports 73.5%. Both
+kept the ambivert group, which is why their numbers sit near my three-class result.
 
-**Framing that holds up:** reported accuracies in this literature are not comparable across
-studies, because papers differ silently in task definition and data preparation. This paper
-measures how much each choice moves the number.
+So also reported that SMOTE raised his cross-validation score to 84.2% while his held-out test
+score fell to 72.79% — useful supporting evidence that resampling inflates the wrong measure.
+
+Cite them for context. Don't build the paper around critiquing them.
+
+---
+
+## Paper structure
+
+1. **Intro** — reported accuracies for this task range widely. Which choices explain it?
+2. **Methods** — datasets, models, each preprocessing condition.
+3. **Results** — finding 1, then 2, then 3, then Parts 4 and 5.
+4. **Discussion** — what to check before trusting a reported accuracy on this task.
+5. **Limitations** — two datasets; redundancy hypothesis unsupported.
+
+**My framing:** reported accuracies for introvert–extrovert classification depend heavily on
+preprocessing choices that often go unstated. I measure how much each choice moves the number.

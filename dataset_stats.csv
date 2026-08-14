@@ -1,0 +1,4 @@
+dataset,items,n,mean_correlation,min_correlation,max_correlation,pc1_variance,factors_above_1
+Kaggle,7,2900,0.784,0.69,0.957,81.7,1
+MIES,91,7163,0.196,0.0,0.823,21.6,16
+BIG5 extraversion,10,19718,0.454,0.32,0.631,51.1,1

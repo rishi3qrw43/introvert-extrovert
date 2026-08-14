@@ -40,13 +40,3 @@ def load_mies(path='data/MIES_data.csv', classes=2):
         raise ValueError('classes must be 2 or 3')
     X = df[MIES_ITEMS].astype(float).replace(0, np.nan)
     return X, y
-
-
-def imputed_mask(path='data/personality_dataset.csv'):
-    # values in these count columns that are not whole numbers were filled
-    # in with the column mean before the file was posted
-    df = pd.read_csv(path)
-    mask = pd.DataFrame(False, index=df.index, columns=KAGGLE_NUMERIC)
-    for c in KAGGLE_NUMERIC:
-        mask[c] = df[c] != df[c].round()
-    return mask
