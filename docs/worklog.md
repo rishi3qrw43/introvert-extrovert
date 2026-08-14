@@ -44,7 +44,7 @@ everywhere, so no analysis can quietly use differently-cleaned data.
 **What it does:** splits 80/20 stratified with a fixed seed, trains three models, reports
 accuracy and balanced accuracy, writes `baseline_results.csv`.
 
-**Three models:** Random Forest, Logistic Regression, Gradient Boosting.
+**Three models:** Random Forest, Logistic Regression, XGBoost.
 
 **Key design choice — pipelines.** Every preprocessing step (filling missing values, scaling)
 runs *inside* a pipeline, so it only ever learns from training rows. Scaling the whole dataset
@@ -94,10 +94,11 @@ MIES, Random Forest picks Q91A while the other two pick Q82A.
 | Kaggle | Logistic Regression | .9120 | .9138 | **−.0018** |
 | Kaggle | XGBoost | .9210 | .9245 | **+.0035** |
 | MIES | Random Forest | .6177 | .6060 | .0116 |
+| MIES | Logistic Regression | .6330 | .6323 | .0007 |
+| MIES | XGBoost | .6249 | .6221 | .0029 |
 
-Delete the most important question and nothing happens. Gradient Boosting loses exactly zero;
-Logistic Regression gets slightly better. Everything stage fear measures already exists in the
-other six.
+Delete the most important question and nothing happens. Two of the three models actually get
+slightly better. Everything stage fear measures already exists in the other six.
 
 **Test 3 — ablation curve.** Drop the lowest-ranked question, retrain, repeat.
 `figures/ablation_kaggle.pdf` is flat from seven questions down to two.
@@ -132,7 +133,7 @@ same thing more clearly.
 **What it does:** measures what share of test rows the model already saw in training, under
 three conditions.
 
-| Condition | Rows | Test rows already seen | RF | Logistic | Gradient Boosting |
+| Condition | Rows | Test rows already seen | RF | Logistic | XGBoost |
 |---|---|---|---|---|---|
 | Original file | 2,900 | **27.9%** | .9103 | .9121 | .9207 |
 | Duplicated before split | 17,400 | **94.4%** | **.9658** | .9141 | .9307 |
@@ -140,7 +141,8 @@ three conditions.
 
 **Two things worth knowing:**
 
-The inflation is mostly Random Forest — 5.5 points, versus 0.2 for logistic regression. A
+The inflation is mostly Random Forest — 5.5 points, versus 1.0 for XGBoost and 0.2 for
+logistic regression. A
 logistic regression has seven coefficients and physically cannot store individual rows. A
 random forest with a hundred deep trees can carve out a region around one row and memorise its
 answer. So the size of a leakage effect depends on which model you use.
@@ -150,6 +152,54 @@ That's not something you introduced.
 
 **Decision:** de-duplicate before all analyses, and justify it in one Methods sentence rather
 than making it a whole finding.
+
+---
+
+## PART 4 — ORDERING · `src/ordering.py`
+
+**What it does:** runs the same pipeline twice with one step moved, to isolate how much the
+*order* of preprocessing changes the result.
+
+**Test 1 — SMOTE before splitting vs. inside each fold.**
+
+| Dataset | Model | Before split | Inside folds | Gap |
+|---|---|---|---|---|
+| MIES | Random Forest | .8569 | .6462 | **+.2107** |
+| MIES | XGBoost | .8264 | .6471 | **+.1793** |
+| MIES | Logistic Regression | .7329 | .6777 | +.0552 |
+| Kaggle | Random Forest | .9195 | .9203 | −.0008 |
+| Kaggle | XGBoost | .9329 | .9304 | +.0025 |
+| Kaggle | Logistic Regression | .9215 | .9170 | +.0045 |
+
+SMOTE builds synthetic rows by blending real ones. Do it before splitting and rows built from
+training data end up in the test set.
+
+**Achieved — Finding 4.** Fieri reported 73.5% → 95.5% after SMOTE, a 22-point jump. We measure
+21 points from ordering alone on the same dataset. That reproduces the mechanism independently,
+without asserting anything about their code.
+
+**Two conditions are required.** Classes must be imbalanced — Kaggle is 51/49 and shows nothing;
+MIES is 61/14/25 and shows 21 points. And the model must be able to memorise — Random Forest
+gains 21 points, logistic regression 6.
+
+**Test 2 — feature selection before splitting vs. inside each fold.**
+
+| Dataset | Model | Gap |
+|---|---|---|
+| MIES | Random Forest | −.0003 |
+| MIES | Logistic Regression | −.0016 |
+| MIES | XGBoost | +.0027 |
+
+Essentially zero. Choosing features on the full dataset adds nothing measurable — a useful
+negative result, since it looks equally suspicious but isn't.
+
+---
+
+## SWITCHING TO XGBOOST
+
+Originally XGBoost failed on macOS (missing OpenMP), so scikit-learn's Gradient Boosting stood
+in. After `brew install libomp`, XGBoost was restored as the third model and Parts 2, 3, and 4
+were re-run. All numbers in this log are the XGBoost versions.
 
 ---
 
@@ -163,7 +213,7 @@ A full check of everything above. It found four real problems:
    and `leakage.py`. Every number now traces to a script you can run.
 2. **Two wrong numbers.** MIES mean correlation was listed as 0.213 (actually 0.196) and PC1 as
    23.2% (actually 21.6%). The old figures came from the 2-class subset.
-3. **The de-duplicated figure was wrong.** Listed as .8970, actually .9337. And the finding
+3. **The de-duplicated figure was wrong.** Listed as .8970, actually .9358. And the finding
    changed: leakage mainly affects Random Forest, and the original file already leaks.
 4. **A stray reference in STATUS.md.** Rewritten as a version-pinning note.
 
@@ -186,8 +236,7 @@ Also removed dead code from `prep.py` and fixed the SHAP background-sampling war
 
 **Done:** Parts 1, 2, 3, plus dataset statistics, leakage, and a full audit.
 
-**Findings:** two solid ones (ambivert effect, redundancy), plus a one-line Methods note about
-de-duplication.
+**Findings:** four (ambivert effect, redundancy, duplicate rows, resampling order).
 
 **Not done:** Part 5 (repeated cross-validation, McNemar), Parts 6-7 (synthesis and writing).
 
@@ -202,6 +251,7 @@ src/models.py          baseline models
 src/redundancy.py      SHAP, ablation, leave-top-out
 src/dataset_stats.py   question overlap per dataset
 src/leakage.py         duplicate overlap and its effect
+src/ordering.py        resampling and feature-selection order
 docs/findings.md       the findings, written for the paper
 docs/references.md     annotated citations + Zenodo checklist
 docs/worklog.md        this file
