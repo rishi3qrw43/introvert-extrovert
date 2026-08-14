@@ -17,7 +17,8 @@ def shap_importance(name, model, X_train, X_test):
         # the model is a pipeline, so push the data through the earlier steps
         # and explain the linear step on its own
         prepared = model[:-1].transform(X_train)
-        explainer = shap.LinearExplainer(model[-1], prepared, max_samples=len(prepared))
+        masker = shap.maskers.Independent(prepared, max_samples=len(prepared))
+        explainer = shap.LinearExplainer(model[-1], masker)
         values = explainer.shap_values(model[:-1].transform(X_test))
     else:
         inner = model[-1] if hasattr(model, 'steps') else model
