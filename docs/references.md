@@ -1,47 +1,115 @@
 # References
 
-## The two key comparison papers
-
-So, C. (2020). Are you an introvert or extrovert? Accurate classification with only ten predictors. *2020 International Conference on Artificial Intelligence in Information and Communication (ICAIIC)*, 1–5. https://doi.org/10.1109/ICAIIC48513.2020.9065069
-Preprint: https://arxiv.org/abs/2003.01580 — Accessed 30 July 2026
-
-Fieri, B., La'la, J., & Suhartono, D. (2023). Introversion-extraversion prediction using machine learning. *JOIV: International Journal on Informatics Visualization*, 7(4), 2153–2159. https://doi.org/10.62527/joiv.7.4.1019
-Open access: https://joiv.org/index.php/joiv/article/view/1019 — Accessed 30 July 2026
-
-## Datasets
-
-Kapilavayi, R. Extrovert vs. introvert behavior data [Data set]. Kaggle. https://www.kaggle.com/datasets/rakeshkapilavai/extrovert-vs-introvert-behavior-data — Accessed 30 July 2026
-
-Open-Source Psychometrics Project. (2019). Development of the Multidimensional Introversion-Extraversion Scales (MIES) [Data set]. https://openpsychometrics.org/tests/MIES/development/ — Accessed 30 July 2026
-
-Open-Source Psychometrics Project. (2014). IPIP Big Five Factor Markers (BIG5) [Data set]. https://openpsychometrics.org/tests/BIG5.php — Accessed 30 July 2026
-
-Raw data index for both datasets above: https://openpsychometrics.org/_rawdata/ — Accessed 30 July 2026
-
-## Method
-
-Lundberg, S. M., & Lee, S.-I. (2017). A unified approach to interpreting model predictions. *Advances in Neural Information Processing Systems*, 30, 4765–4774. https://papers.nips.cc/paper/7062-a-unified-approach-to-interpreting-model-predictions — Accessed 30 July 2026
-
-Chawla, N. V., Bowyer, K. W., Hall, L. O., & Kegelmeyer, W. P. (2002). SMOTE: Synthetic minority over-sampling technique. *Journal of Artificial Intelligence Research*, 16, 321–357. https://doi.org/10.1613/jair.953 — Accessed 30 July 2026
-
-Thompson, E. R. (2008). Development and validation of an international English mini-markers. *Personality and Individual Differences*, 45(6), 542–548. https://doi.org/10.1016/j.paid.2008.06.013 — Accessed 30 July 2026
-
-## Background (carried from original manuscript)
-
-Jung, C. G. (1971). *Psychological types* (H. G. Baynes, Trans.). Princeton University Press.
-
-Eysenck, H. J. (1967). *The biological basis of personality*. Charles C. Thomas.
-
-Cain, S. (2012). *Quiet: The power of introverts in a world that can't stop talking*. Crown.
-
-Kosinski, M., Stillwell, D., & Graepel, T. (2013). Private traits and attributes are predictable from digital records of human behavior. *PNAS*, 110(15), 5802–5805. https://doi.org/10.1073/pnas.1218772110
-
-Youyou, W., Kosinski, M., & Stillwell, D. (2015). Computer-based personality judgments are more accurate than those made by humans. *PNAS*, 112(4), 1036–1040. https://doi.org/10.1073/pnas.1418680112
+IEEE numeric style, matching the convention in this literature (So published at an IEEE
+conference; JOIV uses the same style). Annotations note what each source contributes.
 
 ---
 
-## Not yet verified — do not cite until confirmed
+## Primary comparison papers
 
-Naz, A., Khan, H. U., Alesawi, S., Abouola, O. I., Daud, A., & Ramzan, M. (2024). AI knows you: Deep learning model for prediction of extroversion personality trait. *IEEE Access*. https://ieeexplore.ieee.org/document/10735203/ — metadata from search results only, not opened directly
+[1] C. So, "Are you an introvert or extrovert? Accurate classification with only ten
+predictors," in *2020 International Conference on Artificial Intelligence in Information and
+Communication (ICAIIC)*, Fukuoka, Japan, 2020, pp. 1–5, doi: 10.1109/ICAIIC48513.2020.9065069.
 
-Frontiers in Psychology (2019). Machine learning in psychometrics and psychological research. https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2019.02970/full — author list not confirmed
+> Read in full. Uses MIES, n = 7,161 after removing 27 missing labels, **three classes**
+> (no-information rate 61.51%). Reports 73.81% test accuracy with 10 of 94 features.
+> Also ranks variable importance, finds gbm and random forest disagree sharply, and reports
+> that SMOTE raised cross-validation accuracy to 84.2% while test accuracy fell to 72.79%.
+> Preprint: arXiv:2003.01580. Accessed 30 July 2026.
+
+[2] B. Fieri, J. La'la, and D. Suhartono, "Introversion-extraversion prediction using machine
+learning," *JOIV: International Journal on Informatics Visualization*, vol. 7, no. 4,
+pp. 2153–2159, 2023, doi: 10.62527/joiv.7.4.1019.
+
+> Read in full. Same MIES dataset (4,404 / 989 / 1,768). Selects 15 of 91 items by Pearson
+> correlation computed on the full dataset. Reports 73.5% on original data, 95.5% with SMOTE,
+> 95.3% with ADASYN, 71.0% with SMOTE-ENN. Accessed 30 July 2026.
+
+## Datasets
+
+[3] R. Kapilavayi, "Extrovert vs. introvert behavior data," Kaggle, 2024. [Online]. Available:
+https://www.kaggle.com/datasets/rakeshkapilavai/extrovert-vs-introvert-behavior-data
+
+> 2,900 responses, 7 behavioural items. Licensed CC BY-SA 4.0. Accessed 30 July 2026.
+
+[4] Open-Source Psychometrics Project, "Development of the Multidimensional
+Introversion-Extraversion Scales," 2019. [Online]. Available:
+https://openpsychometrics.org/tests/MIES/development/
+
+> 7,188 respondents, 91 Likert items, plus a self-reported introvert / extravert / neither
+> question. Items were selected from 206 candidates by how strongly they separated
+> self-identified introverts from extraverts. Accessed 30 July 2026.
+
+[5] Open-Source Psychometrics Project, "IPIP Big Five Factor Markers," 2014. [Online].
+Available: https://openpsychometrics.org/tests/BIG5.php
+
+> 19,719 respondents, 50 items. No self-reported introvert/extrovert label, so not usable for
+> the classification comparison. Used descriptively only. Accessed 30 July 2026.
+
+## Methods
+
+[6] S. M. Lundberg and S.-I. Lee, "A unified approach to interpreting model predictions," in
+*Advances in Neural Information Processing Systems 30*, 2017, pp. 4765–4774.
+
+[7] N. V. Chawla, K. W. Bowyer, L. O. Hall, and W. P. Kegelmeyer, "SMOTE: Synthetic minority
+over-sampling technique," *Journal of Artificial Intelligence Research*, vol. 16, pp. 321–357,
+2002, doi: 10.1613/jair.953.
+
+[8] Q. McNemar, "Note on the sampling error of the difference between correlated proportions
+or percentages," *Psychometrika*, vol. 12, no. 2, pp. 153–157, 1947.
+
+[9] E. R. Thompson, "Development and validation of an international English mini-markers,"
+*Personality and Individual Differences*, vol. 45, no. 6, pp. 542–548, 2008,
+doi: 10.1016/j.paid.2008.06.013.
+
+> Precedent for reducing a personality scale to fewer items — the psychology-side analogue of
+> our ablation analysis.
+
+## Background
+
+[10] C. G. Jung, *Psychological Types*, H. G. Baynes, Trans. Princeton, NJ: Princeton
+University Press, 1971.
+
+[11] H. J. Eysenck, *The Biological Basis of Personality*. Springfield, IL: Charles C. Thomas,
+1967.
+
+[12] S. Cain, *Quiet: The Power of Introverts in a World That Can't Stop Talking*. New York,
+NY: Crown, 2012.
+
+[13] M. Kosinski, D. Stillwell, and T. Graepel, "Private traits and attributes are predictable
+from digital records of human behavior," *Proceedings of the National Academy of Sciences*,
+vol. 110, no. 15, pp. 5802–5805, 2013, doi: 10.1073/pnas.1218772110.
+
+[14] W. Youyou, M. Kosinski, and D. Stillwell, "Computer-based personality judgments are more
+accurate than those made by humans," *Proceedings of the National Academy of Sciences*,
+vol. 112, no. 4, pp. 1036–1040, 2015, doi: 10.1073/pnas.1418680112.
+
+---
+
+## Not verified — do not cite without reading
+
+- A. Naz et al., "AI knows you: Deep learning model for prediction of extroversion personality
+  trait," *IEEE Access*, 2024. Metadata from search results only.
+- A 2019 *Frontiers in Psychology* paper on machine learning in psychometrics. Author list
+  unconfirmed.
+
+---
+
+## Zenodo metadata checklist
+
+Zenodo does not impose a citation style or a paper template — the reference format above is
+our choice. What Zenodo asks for is metadata describing the record:
+
+| Field | Value for this project |
+|---|---|
+| Resource type | Publication → Preprint (paper); Software (code, separate record) |
+| Title | final paper title |
+| Publication date | date of upload |
+| Creators | Rishi Vora, Dipa Vora — plus ORCID if registered |
+| Description | the abstract, as plain text |
+| License | CC BY 4.0 for the paper; MIT or Apache-2.0 for the code |
+| Keywords | introversion, extraversion, personality classification, machine learning, data leakage, reproducibility |
+| Related identifiers | cite datasets [3][4][5]; link the paper and code records to each other |
+| Contributors | anyone who advised but is not an author |
+
+A DOI can be reserved before publishing, so it can be printed on the paper's title page.

@@ -4,26 +4,26 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, HistGradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, balanced_accuracy_score
-from xgboost import XGBClassifier
 
 from prep import SEED, load_kaggle, load_mies
 
 
-def build_models(n_classes=2):
-    objective = 'multi:softprob' if n_classes > 2 else 'binary:logistic'
+def build_models():
     return {
-        'Random Forest': RandomForestClassifier(n_estimators=100, random_state=SEED),
+        'Random Forest': Pipeline([
+            ('impute', SimpleImputer(strategy='median')),
+            ('clf', RandomForestClassifier(n_estimators=100, random_state=SEED))
+        ]),
         'Logistic Regression': Pipeline([
             ('impute', SimpleImputer(strategy='median')),
             ('scale', StandardScaler()),
             ('clf', LogisticRegression(max_iter=2000))
         ]),
-        'XGBoost': XGBClassifier(
-            max_depth=3, n_estimators=100, random_state=SEED,
-            objective=objective, eval_metric='logloss'
+        'Gradient Boosting': HistGradientBoostingClassifier(
+            max_depth=3, max_iter=100, random_state=SEED
         ),
     }
 
@@ -33,15 +33,9 @@ def evaluate(X, y, label):
         X, y, test_size=0.2, stratify=y, random_state=SEED
     )
     rows = []
-    for name, model in build_models(len(np.unique(y))).items():
-        # random forest cannot take NaN, so fill for that one only
-        if name == 'Random Forest' and X_train.isna().any().any():
-            Xtr = X_train.fillna(X_train.median())
-            Xte = X_test.fillna(X_train.median())
-        else:
-            Xtr, Xte = X_train, X_test
-        model.fit(Xtr, y_train)
-        pred = model.predict(Xte)
+    for name, model in build_models().items():
+        model.fit(X_train, y_train)
+        pred = model.predict(X_test)
         rows.append({
             'dataset': label,
             'model': name,
