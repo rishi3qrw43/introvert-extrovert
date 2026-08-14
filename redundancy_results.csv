@@ -1,7 +1,7 @@
 dataset,model,top_item,full,without_top,drop
 Kaggle,Random Forest,Stage_fear,0.9105,0.9052,0.0052
 Kaggle,Logistic Regression,Stage_fear,0.912,0.9138,-0.0018
-Kaggle,Gradient Boosting,Stage_fear,0.9245,0.9245,0.0
-MIES (3 class),Random Forest,Q91A,0.624,0.607,0.017
+Kaggle,XGBoost,Stage_fear,0.921,0.9245,-0.0035
+MIES (3 class),Random Forest,Q91A,0.6177,0.606,0.0116
 MIES (3 class),Logistic Regression,Q82A,0.633,0.6323,0.0007
-MIES (3 class),Gradient Boosting,Q82A,0.6243,0.6244,-0.0
+MIES (3 class),XGBoost,Q82A,0.6249,0.6221,0.0029

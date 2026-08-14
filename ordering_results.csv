@@ -1,0 +1,7 @@
+dataset,model,smote_before_split,smote_inside_folds,select_before_split,select_inside_folds,smote_gap,select_gap
+Kaggle,Random Forest,0.9195,0.9203,0.9186,0.9186,-0.0008,0.0
+Kaggle,Logistic Regression,0.9215,0.917,0.9174,0.9174,0.0045,0.0
+Kaggle,XGBoost,0.9329,0.9304,0.9317,0.9317,0.0025,0.0
+MIES (3 class),Random Forest,0.8569,0.6462,0.6135,0.6138,0.2107,-0.0003
+MIES (3 class),Logistic Regression,0.7329,0.6777,0.6241,0.6257,0.0552,-0.0016
+MIES (3 class),XGBoost,0.8264,0.6471,0.6168,0.6141,0.1793,0.0027

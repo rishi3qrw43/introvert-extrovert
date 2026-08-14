@@ -1,140 +1,141 @@
 # My findings
 
-All numbers from my own code, my machine.
+All numbers from my own code, my machine. Models: Random Forest, Logistic Regression, XGBoost.
 
 ---
 
-## 1. Including or excluding ambiverts swings accuracy by 20 points
+## 1. Including or excluding ambiverts swings accuracy ~19 points
 
-MIES lets people answer introvert, extravert, or **neither**. That third group is 1,769 people
-out of 7,163 — the ones who don't place themselves at either end.
+MIES lets people answer introvert, extravert, or **neither**. That third group is 1,769 of
+7,163 — the people who don't place themselves at either end.
 
-I ran it both ways:
+| MIES version | Random Forest | Logistic Regression | XGBoost |
+|---|---|---|---|
+| Three classes (ambiverts kept) | .7362 | .7341 | .7278 |
+| Two classes (ambiverts dropped) | .9184 | .9203 | .9157 |
 
-| MIES version | Accuracy |
-|---|---|
-| Three classes (ambiverts kept) | .7244 |
-| Two classes (ambiverts dropped) | .9240 |
+Dropping the ambiverts isn't a cleaner analysis. It's an easier exam — I deleted the ambiguous
+cases and kept only people who confidently identify at one extreme.
 
-Dropping the ambiverts isn't a cleaner analysis. It's an easier exam — I deleted the hard cases
-and kept only people who confidently identify at one extreme.
-
-This is the single largest effect I've measured. Bigger than duplication, bigger than anything
-else I've tested.
-
-**Write:** the choice of whether to include ambiverts moves accuracy about 20 points, and papers
-in this area don't state it prominently. My own 92% came from the easier version of the task.
+**Write:** whether ambiverts are included moves accuracy by roughly 19 points, and papers on
+this data don't state the choice prominently. My own 92% came from the easier version.
 
 ---
 
 ## 2. My seven questions are really one question
 
-Three separate tests agree.
+Three tests agree.
 
-**Correlation between questions:**
+**Overlap between questions:**
 
-| Dataset | Items | Mean correlation | PC1 variance | Factors |
+| Dataset | Items | Mean correlation | Least related pair | Most related pair |
 |---|---|---|---|---|
-| Mine | 7 | **0.784** | 81.7% | 1 |
-| MIES | 91 | 0.196 | 21.6% | 16 |
-| BIG5 extraversion | 10 | 0.454 | 51.1% | 1 |
+| Mine | 7 | **0.784** | 0.69 | 0.957 |
+| MIES | 91 | 0.196 | 0.00 | 0.823 |
+| BIG5 extraversion | 10 | 0.454 | 0.32 | 0.631 |
 
-The BIG5 comparison is the one that lands. That scale was deliberately built to ask about one
-trait ten different ways, and its questions agree with each other *less* than my seven
-supposedly-distinct behaviours do.
+The sharpest number: my *least* related pair of questions (0.69) overlaps more than BIG5's
+*most* related pair (0.631) — and BIG5's scale was purpose-built to ask one thing ten ways.
 
-One principal component explains 81.7% of my data, and only one factor clears the standard
-eigenvalue cutoff. MIES has sixteen.
+**Delete the top-ranked question and nothing breaks:**
 
-Produced by `src/dataset_stats.py`.
+| Dataset | Model | Full | Without top | Change |
+|---|---|---|---|---|
+| Mine | Random Forest | .9105 | .9052 | −.0052 |
+| Mine | Logistic Regression | .9120 | .9138 | **+.0018** |
+| Mine | XGBoost | .9210 | .9245 | **+.0035** |
+| MIES | Random Forest | .6177 | .6060 | −.0116 |
+| MIES | Logistic Regression | .6330 | .6323 | −.0007 |
+| MIES | XGBoost | .6249 | .6221 | −.0029 |
 
-**Delete the top question and nothing happens:**
+All three models rank stage fear first on my data. Two of the three get *better* when it's
+removed. Everything stage fear measures already lives in the other six questions.
 
-| Model | Full | Without top | Drop |
-|---|---|---|---|
-| Random Forest | .9105 | .9052 | .0052 |
-| Logistic Regression | .9120 | .9138 | **−.0018** |
-| Gradient Boosting | .9245 | .9245 | **.0000** |
+**Ablation curve** (`figures/ablation_kaggle.pdf`): flat from seven questions down to two.
+MIES (`ablation_mies.pdf`) needs about fifteen before it settles.
 
-All three models rank stage fear first. Removing it costs Gradient Boosting exactly zero, and
-Logistic Regression gets slightly better. Everything stage fear measures already lives in the
-other six questions.
-
-**Ablation curve** (`ablation_kaggle.pdf`): flat from seven questions down to two. MIES needs
-about fifteen before it holds steady.
-
-**Write:** seven behaviours carry roughly one question's worth of information. Anyone using this
-dataset to ask which behaviour best predicts personality will get an arbitrary answer.
+**Write:** seven behaviours carry roughly one question's worth of information. Anyone asking
+which behaviour best predicts personality will get an arbitrary answer.
 
 ---
 
-## 3. My old 17k dataset was grading itself on memorised rows
+## 3. Duplicate rows inflate accuracy, and the raw file already has them
 
-I built it by stacking five exact copies plus one noisy copy, then splitting 80/20. With five
-copies of every row, it's near-certain one copy lands in training and another in test — so the
-model memorises a row, then recognises it on the exam.
-
-| Condition | Rows | Test rows already seen in training | RF | Logistic | Gradient Boosting |
+| Condition | Rows | Test rows already seen in training | RF | Logistic | XGBoost |
 |---|---|---|---|---|---|
-| Original file | 2,900 | **27.9%** | .9103 | .9121 | .9241 |
-| Duplicated before split | 17,400 | **94.4%** | **.9658** | .9141 | .9293 |
-| De-duplicated | 2,414 | 0% | .9358 | .9441 | .9441 |
+| Raw file | 2,900 | **27.9%** | .9103 | .9121 | .9207 |
+| Duplicated before split | 17,400 | **94.4%** | **.9658** | .9141 | .9307 |
+| De-duplicated | 2,414 | 0% | .9358 | .9441 | .9420 |
 
-Two things I didn't expect:
+Two things worth stating:
 
-**The effect is mostly Random Forest.** Duplication adds 5.5 points to Random Forest but under
-1.5 points to the other two. Tree ensembles memorise individual rows more readily, so they
-benefit most from seeing them again.
+**The raw file already leaks.** 486 of its 2,900 rows are exact duplicates, so 27.9% of test
+rows appear identically in training before anyone does anything.
 
-**The original file already leaks.** Before I did anything, 27.9% of test rows already appeared
-identically in training, because the file contains 486 duplicate rows out of 2,900. That's not
-something I introduced.
+**The effect is mostly Random Forest** — 5.5 points, versus 1.0 for XGBoost and 0.2 for
+logistic regression. A logistic regression has seven coefficients and cannot store individual
+rows. A random forest with a hundred deep trees can memorise one.
 
-One caveat on the de-duplicated row: 60 answer patterns appear with *both* labels (157 rows
-total), so removing duplicates by answer pattern also drops some contradictory cases. That's
-part of why accuracy rises rather than falls.
+**Write:** I de-duplicate before all analyses. One sentence in Methods.
 
-**Write:** this is a self-correction. Report the honest de-duplicated figure and note that the
-inflation is model-dependent.
+---
 
-Produced by `src/leakage.py`.
+## 4. Resampling before splitting inflates accuracy by 21 points
+
+SMOTE creates synthetic rows by blending real ones. Do it before splitting and synthetic rows
+built from training data land in the test set.
+
+| Dataset | Model | SMOTE before split | SMOTE inside folds | Gap |
+|---|---|---|---|---|
+| MIES | Random Forest | .8569 | .6462 | **+.2107** |
+| MIES | XGBoost | .8264 | .6471 | **+.1793** |
+| MIES | Logistic Regression | .7329 | .6777 | +.0552 |
+| Mine | Random Forest | .9195 | .9203 | −.0008 |
+| Mine | XGBoost | .9329 | .9304 | +.0025 |
+| Mine | Logistic Regression | .9215 | .9170 | +.0045 |
+
+**Fieri reported 73.5% → 95.5% after SMOTE — a 22-point jump. I measure 21 points from
+resampling order alone, on the same dataset.** That reproduces the mechanism without having to
+claim anything about their code.
+
+**Two conditions are required.** The class balance has to be uneven — my dataset is 51/49 and
+shows no gap; MIES is 61/14/25 and shows 21 points. And the model has to be able to memorise:
+Random Forest gains 21 points, logistic regression 6.
+
+**By contrast, feature-selection order does almost nothing:**
+
+| Dataset | Model | Gap |
+|---|---|---|
+| MIES | Random Forest | −.0003 |
+| MIES | Logistic Regression | −.0016 |
+| MIES | XGBoost | +.0027 |
+
+Choosing features on the full dataset before cross-validating adds nothing measurable. Two
+choices that look equally suspicious, and only one matters.
 
 ---
 
 ## Wrong turns — keep out of the paper
 
-1. **"Rankings are unstable across models."** They're not. +0.39 to +0.79 on mine, +0.46 to
-   +0.75 on MIES.
-2. **"The three models disagree on the top question."** They all say stage fear.
-3. **"Redundancy drives accuracy."** My original hypothesis. Mine is 3.7× more redundant than
-   MIES and gets the same two-class accuracy. Falsified — say so directly.
+1. **"Rankings are unstable across models."** They're not. +0.50 to +0.68 on mine, +0.47 to
+   +0.82 on MIES.
+2. **"The models disagree on the top question."** All three say stage fear on my data.
+3. **"Redundancy drives accuracy."** My original hypothesis. Mine is four times more redundant
+   than MIES and gets the same two-class accuracy. Falsified — state it plainly.
 
 ---
 
-## Still to measure
+## Still to do
 
-SMOTE before vs. after splitting · feature selection inside vs. outside CV (Part 4) ·
-repeated cross-validation and McNemar (Part 5)
-
----
-
-## Context from the literature — brief
-
-Two papers use the same MIES data. So (2020) reports 73.81%, Fieri (2023) reports 73.5%. Both
-kept the ambivert group, which is why their numbers sit near my three-class result.
-
-So also reported that SMOTE raised his cross-validation score to 84.2% while his held-out test
-score fell to 72.79% — useful supporting evidence that resampling inflates the wrong measure.
-
-Cite them for context. Don't build the paper around critiquing them.
+Part 5 — repeated cross-validation with confidence intervals, and McNemar's test between models.
 
 ---
 
 ## Paper structure
 
 1. **Intro** — reported accuracies for this task range widely. Which choices explain it?
-2. **Methods** — datasets, models, each preprocessing condition.
-3. **Results** — finding 1, then 2, then 3, then Parts 4 and 5.
+2. **Methods** — datasets, models, each condition tested.
+3. **Results** — finding 1, then 2, then 3, then 4.
 4. **Discussion** — what to check before trusting a reported accuracy on this task.
 5. **Limitations** — two datasets; redundancy hypothesis unsupported.
 

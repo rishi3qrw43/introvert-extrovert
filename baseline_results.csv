@@ -1,10 +1,10 @@
 dataset,model,accuracy,balanced_accuracy
 Kaggle,Random Forest,0.9103,0.9105
 Kaggle,Logistic Regression,0.9121,0.912
-Kaggle,Gradient Boosting,0.9241,0.9245
-MIES (2 class),Random Forest,0.9203,0.8376
+Kaggle,XGBoost,0.9207,0.921
+MIES (2 class),Random Forest,0.9184,0.8346
 MIES (2 class),Logistic Regression,0.9203,0.8474
-MIES (2 class),Gradient Boosting,0.924,0.8536
-MIES (3 class),Random Forest,0.7376,0.624
+MIES (2 class),XGBoost,0.9157,0.8426
+MIES (3 class),Random Forest,0.7362,0.6177
 MIES (3 class),Logistic Regression,0.7341,0.633
-MIES (3 class),Gradient Boosting,0.7244,0.6243
+MIES (3 class),XGBoost,0.7278,0.6249

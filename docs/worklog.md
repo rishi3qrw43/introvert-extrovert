@@ -57,13 +57,13 @@ paper is about, so the code shouldn't commit it.
 |---|---|---|---|
 | Kaggle | Random Forest | .9103 | .9105 |
 | Kaggle | Logistic Regression | .9121 | .9120 |
-| Kaggle | Gradient Boosting | .9241 | .9245 |
+| Kaggle | XGBoost | .9207 | .9210 |
 | MIES (2 class) | Random Forest | .9184 | .8346 |
 | MIES (2 class) | Logistic Regression | .9203 | .8474 |
-| MIES (2 class) | Gradient Boosting | .9240 | .8536 |
+| MIES (2 class) | XGBoost | .9157 | .8426 |
 | MIES (3 class) | Random Forest | .7362 | .6177 |
 | MIES (3 class) | Logistic Regression | .7341 | .6330 |
-| MIES (3 class) | Gradient Boosting | .7244 | .6243 |
+| MIES (3 class) | XGBoost | .7278 | .6249 |
 
 **Achieved — Finding 1.** The 3-class rows land on So's published 73.81% and Fieri's 73.5%.
 The 2-class rows land on the Kaggle numbers. So the 19-point "gap" in the literature is
@@ -74,9 +74,8 @@ of 61.51%; our 3-class MIES gives 61.48%.
 so a model that always guesses "introvert" scores 81.6% while learning nothing. Balanced
 accuracy scores each class separately and averages, so that lazy model would get 50%.
 
-**Along the way:** XGBoost failed on your Mac (missing OpenMP library). Swapped to
-scikit-learn's Gradient Boosting, which your research plan already allowed. No external
-dependencies, handles missing values natively, runs anywhere.
+**Along the way:** XGBoost initially failed on macOS (missing OpenMP). Fixed with
+`brew install libomp`. XGBoost handles missing values natively, so it needs no imputer.
 
 ---
 
@@ -93,7 +92,7 @@ MIES, Random Forest picks Q91A while the other two pick Q82A.
 |---|---|---|---|---|
 | Kaggle | Random Forest | .9105 | .9052 | .0052 |
 | Kaggle | Logistic Regression | .9120 | .9138 | **−.0018** |
-| Kaggle | Gradient Boosting | .9245 | .9245 | **.0000** |
+| Kaggle | XGBoost | .9210 | .9245 | **+.0035** |
 | MIES | Random Forest | .6177 | .6060 | .0116 |
 
 Delete the most important question and nothing happens. Gradient Boosting loses exactly zero;
@@ -135,9 +134,9 @@ three conditions.
 
 | Condition | Rows | Test rows already seen | RF | Logistic | Gradient Boosting |
 |---|---|---|---|---|---|
-| Original file | 2,900 | **27.9%** | .9103 | .9121 | .9241 |
-| Duplicated before split | 17,400 | **94.4%** | **.9658** | .9141 | .9293 |
-| De-duplicated | 2,414 | 0% | .9337 | .9441 | .9441 |
+| Original file | 2,900 | **27.9%** | .9103 | .9121 | .9207 |
+| Duplicated before split | 17,400 | **94.4%** | **.9658** | .9141 | .9307 |
+| De-duplicated | 2,414 | 0% | .9358 | .9441 | .9420 |
 
 **Two things worth knowing:**
 
@@ -190,8 +189,7 @@ Also removed dead code from `prep.py` and fixed the SHAP background-sampling war
 **Findings:** two solid ones (ambivert effect, redundancy), plus a one-line Methods note about
 de-duplication.
 
-**Not done:** Part 4 (SMOTE ordering, feature-selection ordering), Part 5 (repeated
-cross-validation, McNemar), Parts 6–7 (synthesis and writing).
+**Not done:** Part 5 (repeated cross-validation, McNemar), Parts 6-7 (synthesis and writing).
 
 **Open:** whether Part 4 happens at all. Cutting leakage entirely means cutting Part 4 and
 dropping "duplicate records" from the research question.

@@ -4,9 +4,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
-from sklearn.ensemble import RandomForestClassifier, HistGradientBoostingClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, balanced_accuracy_score
+from xgboost import XGBClassifier
 
 from prep import SEED, load_kaggle, load_mies
 
@@ -22,8 +23,8 @@ def build_models():
             ('scale', StandardScaler()),
             ('clf', LogisticRegression(max_iter=2000))
         ]),
-        'Gradient Boosting': HistGradientBoostingClassifier(
-            max_depth=3, max_iter=100, random_state=SEED
+        'XGBoost': XGBClassifier(
+            max_depth=3, n_estimators=100, random_state=SEED
         ),
     }
 

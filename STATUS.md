@@ -48,13 +48,13 @@ nothing leaks from test into training.
 |---|---|---|---|
 | Kaggle | Random Forest | .9103 | .9105 |
 | Kaggle | Logistic Regression | .9121 | .9120 |
-| Kaggle | Gradient Boosting | .9241 | .9245 |
+| Kaggle | XGBoost | .9207 | .9210 |
 | MIES (2 class) | Random Forest | .9184 | .8346 |
 | MIES (2 class) | Logistic Regression | .9203 | .8474 |
-| MIES (2 class) | Gradient Boosting | .9240 | .8536 |
+| MIES (2 class) | XGBoost | .9157 | .8426 |
 | MIES (3 class) | Random Forest | .7362 | .6177 |
 | MIES (3 class) | Logistic Regression | .7341 | .6330 |
-| MIES (3 class) | Gradient Boosting | .7244 | .6243 |
+| MIES (3 class) | XGBoost | .7278 | .6249 |
 
 ---
 
@@ -122,7 +122,7 @@ to dismiss.
 - MIES three-class is primary; two-class reported once as a preprocessing condition
 - Paper is a measurement paper, not a redundancy-causes-accuracy paper
 - GitHub repo will be private until the paper is done
-- Gradient Boosting replaces XGBoost (no external dependencies, in line with the plan)
+- XGBoost is the third model (requires libomp on macOS: `brew install libomp`)
 - Your machine's numbers are authoritative
 
 ## STILL OPEN
