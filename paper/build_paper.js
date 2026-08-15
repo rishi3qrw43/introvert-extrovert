@@ -131,9 +131,7 @@ const doc = new Document({
       }),
       CENTER('Rishi Vora', { size: 23 }),
       CENTER('Northside College Prep', { size: 20 }),
-      CENTER('Chicago, Illinois', { size: 20 }),
-      CENTER('rishihvora@gmail.com', { size: 20 }),
-      CENTER('ORCID: [add before publishing]', { size: 18, italics: true, after: 240 }),
+      CENTER('rishihvora@gmail.com', { size: 20, after: 240 }),
 
       H1('Abstract'),
       P('Reported accuracies for classifying introverts and extroverts from self-report data vary widely. Fieri et al. [13] report 73.5% and 95.5% on the same dataset depending on how it was prepared before training. I measure how much four preparation decisions move that number, holding the data and the models fixed. Using a public Kaggle dataset of 2,900 responses to seven behavioral questions and the Multidimensional Introversion-Extraversion Scales (MIES; 7,188 respondents, 91 items), each condition is evaluated with 5-fold cross-validation repeated 10 times, and differences are reported in percentage points of balanced accuracy with 95% intervals. Dropping respondents who identify as neither introvert nor extrovert raises balanced accuracy by 22.8 to 23.5 points, although this changes the classification task rather than only the preprocessing. Applying SMOTE to the full dataset before splitting, rather than within each training fold, raises it by 18.3 to 20.7 points on the imbalanced dataset and by under 0.5 points on the balanced one. Keeping duplicate rows changes it by about one point. Selecting the top 15 features by ANOVA F-score before splitting shows no evidence of a systematic effect, with all three intervals containing zero. My three-class MIES results fall within a third of a point of two published studies that retained the ambivert group. Accuracies for this task are therefore not comparable across studies unless these choices are stated.'),
