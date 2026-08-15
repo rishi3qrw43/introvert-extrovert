@@ -3,6 +3,8 @@ __pycache__/
 *.pyc
 .DS_Store
 .venv/
+paper/node_modules/
+paper/*.pdf
 
 # working notes, not part of the published record
 STATUS.md

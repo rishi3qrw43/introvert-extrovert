@@ -41,24 +41,26 @@ def heatmaps():
 
 
 def effects():
-    # effect sizes from the four experiments, largest first
+    # effect sizes and 95% intervals from intervals.py, random forest
     data = [
-        ('Resampling before\nvs. inside folds', 21.1),
-        ('Ambiverts kept\nvs. dropped', 18.2),
-        ('Duplicate rows\nkept vs. removed', 5.5),
-        ('Feature selection before\nvs. inside folds', 0.0),
+        ('Ambiverts dropped\nvs. kept', 23.46, 0.53),
+        ('Resampling before\nvs. inside folds', 20.69, 0.42),
+        ('Duplicates kept\nvs. removed', -1.47, 0.38),
+        ('Selection before\nvs. inside folds', 0.08, 0.55),
     ]
-    names, values = zip(*data)
+    names, values, errs = zip(*data)
 
     fig, ax = plt.subplots(figsize=(6, 3.5))
-    ax.barh(range(len(values)), values, color='0.4', height=0.6)
+    ax.barh(range(len(values)), values, xerr=errs, color='0.4', height=0.6,
+            error_kw={'ecolor': '0.1', 'capsize': 3, 'lw': 1})
+    ax.axvline(0, color='0.1', lw=0.8)
     ax.set_yticks(range(len(names)))
     ax.set_yticklabels(names, fontsize=8)
     ax.invert_yaxis()
     ax.set_xlabel('Change in accuracy (percentage points)', fontsize=10)
     for i, v in enumerate(values):
-        ax.text(v + 0.4, i, f'{v:.1f}', va='center', fontsize=8)
-    ax.set_xlim(0, 24)
+        ax.text(v + (0.7 if v >= 0 else -2.3), i, f'{v:+.1f}', va='center', fontsize=8)
+    ax.set_xlim(-4, 27)
     fig.savefig('figures/effect_sizes.pdf', bbox_inches='tight')
     fig.savefig('figures/effect_sizes.png', dpi=150, bbox_inches='tight')
     plt.close(fig)
