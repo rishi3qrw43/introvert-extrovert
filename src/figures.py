@@ -43,10 +43,10 @@ def heatmaps():
 def effects():
     # effect sizes and 95% intervals from intervals.py, random forest
     data = [
-        ('Ambiverts dropped\nvs. kept', 23.46, 0.53),
-        ('Resampling before\nvs. inside folds', 20.69, 0.42),
+        ('Ambiverts dropped\nvs. kept', 23.48, 0.56),
+        ('Resampling before\nvs. inside folds', 20.61, 0.42),
         ('Duplicates kept\nvs. removed', -1.47, 0.38),
-        ('Selection before\nvs. inside folds', 0.08, 0.55),
+        ('Selection before\nvs. inside folds', 0.04, 0.56),
     ]
     names, values, errs = zip(*data)
 

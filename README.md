@@ -13,7 +13,7 @@ differences are reported in percentage points of balanced accuracy with 95% inte
 respondents who identify as neither introvert nor extrovert raises balanced accuracy by 22.8 to
 23.5 points, although this changes the classification task rather than only the preprocessing.
 Applying SMOTE to the full dataset before splitting, rather than within each training fold, raises
-it by 18.3 to 20.7 points on the imbalanced dataset and by under 0.5 points on the balanced one.
+it by 18.4 to 20.6 points on the imbalanced dataset and by under 0.5 points on the balanced one.
 Keeping duplicate rows changes it by about one point. Selecting the top 15 features by ANOVA
 F-score before splitting shows no evidence of a systematic effect, with all three intervals
 containing zero. My three-class MIES results fall within a third of a point of two published
@@ -27,10 +27,10 @@ cross-validation, 10 repeats) with 95% intervals.
 
 | Decision | Effect on balanced accuracy | 95% interval |
 |---|---|---|
-| Excluding respondents who identify as neither introvert nor extrovert | +22.9 to +23.5 points | 22.3 to 24.0 |
-| Applying resampling before splitting rather than inside folds | +18.3 to +20.7 points | 17.9 to 21.1 |
+| Excluding respondents who identify as neither introvert nor extrovert | +22.8 to +23.5 points | 22.2 to 24.0 |
+| Applying resampling before splitting rather than inside folds | +18.4 to +20.6 points | 18.0 to 21.0 |
 | Retaining duplicate rows | -0.5 to -1.5 points | -1.9 to -0.1 |
-| Selecting features before splitting rather than inside folds | +0.1 points | -0.46 to +0.63 |
+| Selecting features before splitting rather than inside folds | -0.0 to +0.1 points | -0.52 to +0.60 |
 
 The final row is the only one whose interval includes zero, so feature-selection order has no
 measurable effect while the other three do.
