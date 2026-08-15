@@ -1,14 +1,13 @@
 cff-version: 1.2.0
 title: >-
-  Preprocessing choices account for a 23-point spread in reported accuracy for
-  introvert-extrovert classification
+  Analysis code for "Measuring How Preprocessing Choices Affect Reported Accuracy
+  in Introvert-Extrovert Classification"
 message: Please cite this software if you use it.
 type: software
 authors:
   - given-names: Rishi
     family-names: Vora
-  - given-names: Dipa
-    family-names: Vora
+    affiliation: Northside College Prep
 repository-code: https://github.com/rishi3qrw43/introvert-extrovert
 license: MIT
 keywords:
@@ -17,4 +16,20 @@ keywords:
   - personality classification
   - machine learning
   - data leakage
+  - preprocessing
+  - cross-validation
+  - SMOTE
+  - class imbalance
+  - feature selection
   - reproducibility
+preferred-citation:
+  type: article
+  title: >-
+    Measuring How Preprocessing Choices Affect Reported Accuracy in
+    Introvert-Extrovert Classification
+  authors:
+    - given-names: Rishi
+      family-names: Vora
+      affiliation: Northside College Prep
+  year: 2026
+  doi: 10.5281/zenodo.21955709

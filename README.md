@@ -2,6 +2,7 @@
 
 Python code for the paper entitled: "Measuring How Preprocessing Choices Affect Reported Accuracy
 in Introvert-Extrovert Classification" (2026). R. Vora.
+https://doi.org/10.5281/zenodo.21955709
 
 Abstract: Reported accuracies for classifying introverts and extroverts from self-report data vary
 widely. Fieri et al. report 73.5% and 95.5% on the same dataset depending on how it was prepared

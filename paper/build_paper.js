@@ -173,10 +173,12 @@ const doc = new Document({
       CENTER('Rishi Vora', { size: 23 }),
       CENTER('Northside College Prep', { size: 20 }),
       CENTER('rishihvora@gmail.com', { size: 20 }),
-      CENTER('August 2026', { size: 20, after: 300 }),
+      CENTER('August 2026', { size: 20 }),
+      CENTER('Preprint, version 1.0', { size: 19 }),
+      CENTER('https://doi.org/10.5281/zenodo.21955709', { size: 19, after: 300 }),
 
       H1('Abstract'),
-      P('Reported accuracies for classifying introverts and extroverts from self-report data vary widely. Fieri et al. [13] report 73.5% and 95.5% on the same dataset depending on how it was prepared before training. I measure how much four preparation decisions move that number, holding the data and the models fixed. Using a public Kaggle dataset of 2,900 responses to seven behavioral questions and the Multidimensional Introversion-Extraversion Scales (MIES; 7,188 respondents, 91 items), each condition is evaluated with 5-fold cross-validation repeated 10 times, and differences are reported in percentage points of balanced accuracy with 95% intervals. Dropping respondents who identify as neither introvert nor extrovert raises balanced accuracy by 22.8 to 23.5 points, although this changes the classification task rather than only the preprocessing. Applying SMOTE to the full dataset before splitting, rather than within each training fold, raises it by 18.4 to 20.6 points on the imbalanced dataset and by under 0.5 points on the balanced one. Keeping duplicate rows changes it by about one point. Selecting the top 15 features by ANOVA F-score before splitting shows no evidence of a systematic effect, with all three intervals containing zero. My three-class MIES results fall within a third of a point of two published studies that retained the ambivert group. Accuracies for this task are therefore not comparable across studies unless these choices are stated.'),
+      P('Reported accuracies for classifying introverts and extroverts from self-report data vary widely. Fieri et al. [13] report 73.5% and 95.5% on the same dataset depending on how it was prepared before training. I measure how much four preparation decisions move that number, holding the data and the models fixed. Using a public Kaggle dataset of 2,900 responses to seven behavioral questions and the Multidimensional Introversion-Extraversion Scales (MIES; 7,188 respondents, 91 items), each condition is evaluated with 5-fold cross-validation repeated 10 times, and differences are reported in percentage points of balanced accuracy with 95% intervals. Dropping respondents who identify as neither introvert nor extrovert raises balanced accuracy by 22.8 to 23.5 points, although this changes the classification task rather than only the preprocessing. Applying SMOTE to the full dataset before splitting, rather than within each training fold, raises it by 18.4 to 20.6 points on the imbalanced dataset and by under 0.5 points on the balanced one. Keeping duplicate rows changes it by about one point. Selecting the top 15 features by ANOVA F-score before splitting shows no evidence of a systematic effect, with all three intervals containing zero. My three-class MIES results fall within a third of a point of two published studies that retained the ambivert group. Reported performance on this task is therefore sensitive to class definition and resampling order, which makes comparison across studies difficult when those choices are not stated.'),
 
       H1('Keywords'),
       P('Introversion, extroversion, personality classification, machine learning, data leakage, preprocessing, cross-validation, class imbalance, SMOTE, reproducibility'),
@@ -212,7 +214,7 @@ const doc = new Document({
       H1('III. Methodology'),
 
       H2('A. Models'),
-      P('Three classifiers were used: a random forest with 100 trees, a logistic regression with L2 regularization and the lbfgs solver, and an XGBoost model [19] with a maximum depth of 3 and 100 trees. All use random_state = 42 so that the results can be repeated.'),
+      P('Three classifiers were used: a random forest [21] with 100 trees, a logistic regression with L2 regularization and the lbfgs solver, and an XGBoost model [19] with a maximum depth of 3 and 100 trees. All use random_state = 42 so that the results can be repeated.'),
       P('Every preprocessing step runs inside a scikit-learn [18] pipeline, so imputation and scaling are fitted on training data only. This matters here for a specific reason: fitting a scaler on the full dataset before splitting is itself a small version of the leakage this paper measures, so the code should not commit it.'),
 
       H2('B. Evaluation'),
@@ -298,7 +300,10 @@ const doc = new Document({
       P('Two conclusions follow. Reported accuracies for this task are difficult to compare across studies when the class structure and the preprocessing order are not stated, and a reader has no way to tell which version of the task a number describes. And the choices are not equally consequential, so a reader checking a reported number should know which ones to ask about.'),
 
       H1('Code and Data Availability'),
-      P('All code used to clean the data, run the conditions, and generate the figures is available at https://github.com/rishi3qrw43/introvert-extrovert. The datasets are not redistributed; the repository documents where to download each one.'),
+      P('All code used to clean the data, run the conditions, and generate the figures is available at https://github.com/rishi3qrw43/introvert-extrovert. The three datasets are publicly available from their original sources [10, 14, 15] and are not redistributed here; the repository documents where to download each one and how to prepare it.'),
+
+      H1('Ethics Statement'),
+      P('This work analyzes survey data that was collected and anonymized by others before the study began. No new human-subject data were collected, and no personally identifying information was accessed or redistributed.'),
 
       H1('References'),
       ref('[1] C. G. Jung, Psychological Types, H. G. Baynes, Trans., rev. ed. Princeton, NJ: Princeton University Press, 1971.'),
@@ -306,21 +311,22 @@ const doc = new Document({
       ref('[3] S. Cain, Quiet: The Power of Introverts in a World That Can’t Stop Talking. New York, NY: Crown, 2012.'),
       ref('[4] P. T. Costa and R. R. McCrae, Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory (NEO-FFI) Professional Manual. Odessa, FL: Psychological Assessment Resources, 1992.'),
       ref('[5] I. B. Myers, M. H. McCaulley, N. L. Quenk, and A. L. Hammer, MBTI Manual: A Guide to the Development and Use of the Myers-Briggs Type Indicator, 3rd ed. Palo Alto, CA: Consulting Psychologists Press, 1998.'),
-      ref('[6] S. D. Gosling, P. J. Rentfrow, and W. B. Swann, "A very brief measure of the Big-Five personality domains," Journal of Research in Personality, vol. 37, no. 6, pp. 504-528, 2003.'),
-      ref('[7] M. Kosinski, D. Stillwell, and T. Graepel, "Private traits and attributes are predictable from digital records of human behavior," Proceedings of the National Academy of Sciences, vol. 110, no. 15, pp. 5802-5805, 2013.'),
-      ref('[8] W. Youyou, M. Kosinski, and D. Stillwell, "Computer-based personality judgments are more accurate than those made by humans," Proceedings of the National Academy of Sciences, vol. 112, no. 4, pp. 1036-1040, 2015.'),
-      ref('[9] S. C. Matz, M. Kosinski, G. Nave, and D. J. Stillwell, "Psychological targeting as an effective approach to digital mass persuasion," Proceedings of the National Academy of Sciences, vol. 114, no. 48, pp. 12714-12719, 2017.'),
+      ref('[6] S. D. Gosling, P. J. Rentfrow, and W. B. Swann, "A very brief measure of the Big-Five personality domains," Journal of Research in Personality, vol. 37, no. 6, pp. 504-528, 2003, doi: 10.1016/S0092-6566(03)00046-1.'),
+      ref('[7] M. Kosinski, D. Stillwell, and T. Graepel, "Private traits and attributes are predictable from digital records of human behavior," Proceedings of the National Academy of Sciences, vol. 110, no. 15, pp. 5802-5805, 2013, doi: 10.1073/pnas.1218772110.'),
+      ref('[8] W. Youyou, M. Kosinski, and D. Stillwell, "Computer-based personality judgments are more accurate than those made by humans," Proceedings of the National Academy of Sciences, vol. 112, no. 4, pp. 1036-1040, 2015, doi: 10.1073/pnas.1418680112.'),
+      ref('[9] S. C. Matz, M. Kosinski, G. Nave, and D. J. Stillwell, "Psychological targeting as an effective approach to digital mass persuasion," Proceedings of the National Academy of Sciences, vol. 114, no. 48, pp. 12714-12719, 2017, doi: 10.1073/pnas.1710966114.'),
       ref('[10] R. Kapilavai, "Extrovert vs Introvert Behavior Data," Kaggle, 2024. [Online]. Available: https://www.kaggle.com/datasets/rakeshkapilavai/extrovert-vs-introvert-behavior-data'),
-      ref('[11] S. Kapoor and A. Narayanan, "Leakage and the reproducibility crisis in machine-learning-based science," Patterns, vol. 4, no. 9, art. 100804, 2023.'),
-      ref('[12] C. So, "Are you an introvert or extrovert? Accurate classification with only ten predictors," in Proc. 2020 International Conference on Artificial Intelligence in Information and Communication (ICAIIC), 2020, pp. 1-5.'),
-      ref('[13] B. Fieri, J. La’la, and D. Suhartono, "Introversion-extraversion prediction using machine learning," JOIV: International Journal on Informatics Visualization, vol. 7, no. 4, pp. 2153-2159, 2023.'),
+      ref('[11] S. Kapoor and A. Narayanan, "Leakage and the reproducibility crisis in machine-learning-based science," Patterns, vol. 4, no. 9, art. 100804, 2023, doi: 10.1016/j.patter.2023.100804.'),
+      ref('[12] C. So, "Are you an introvert or extrovert? Accurate classification with only ten predictors," in Proc. 2020 International Conference on Artificial Intelligence in Information and Communication (ICAIIC), Fukuoka, Japan, 2020, pp. 693-696, doi: 10.1109/ICAIIC48513.2020.9065069.'),
+      ref('[13] B. Fieri, J. La’la, and D. Suhartono, "Introversion-extraversion prediction using machine learning," JOIV: International Journal on Informatics Visualization, vol. 7, no. 4, pp. 2154-2160, 2023, doi: 10.62527/joiv.7.4.1019.'),
       ref('[14] Open-Source Psychometrics Project, "Development of the Multidimensional Introversion-Extraversion Scales," 2019. [Online]. Available: https://openpsychometrics.org/tests/MIES/development/'),
       ref('[15] Open-Source Psychometrics Project, "IPIP Big Five Factor Markers," 2014. [Online]. Available: https://openpsychometrics.org/tests/BIG5.php'),
-      ref('[16] N. V. Chawla, K. W. Bowyer, L. O. Hall, and W. P. Kegelmeyer, "SMOTE: Synthetic minority over-sampling technique," Journal of Artificial Intelligence Research, vol. 16, pp. 321-357, 2002.'),
+      ref('[16] N. V. Chawla, K. W. Bowyer, L. O. Hall, and W. P. Kegelmeyer, "SMOTE: Synthetic minority over-sampling technique," Journal of Artificial Intelligence Research, vol. 16, pp. 321-357, 2002, doi: 10.1613/jair.953.'),
       ref('[17] S. M. Lundberg and S.-I. Lee, "A unified approach to interpreting model predictions," in Advances in Neural Information Processing Systems, vol. 30, 2017, pp. 4765-4774.'),
       ref('[18] F. Pedregosa et al., "Scikit-learn: Machine learning in Python," Journal of Machine Learning Research, vol. 12, pp. 2825-2830, 2011.'),
       ref('[19] T. Chen and C. Guestrin, "XGBoost: A scalable tree boosting system," in Proc. 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining, 2016, pp. 785-794.'),
       ref('[20] G. Lemaitre, F. Nogueira, and C. K. Aridas, "Imbalanced-learn: A Python toolbox to tackle the curse of imbalanced datasets in machine learning," Journal of Machine Learning Research, vol. 18, no. 17, pp. 1-5, 2017.'),
+      ref('[21] L. Breiman, "Random forests," Machine Learning, vol. 45, no. 1, pp. 5-32, 2001, doi: 10.1023/A:1010933404324.'),
     ]
   }]
 });
