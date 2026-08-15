@@ -1,4 +1,4 @@
-# PROJECT HUB: read this first
+# Project hub
 
 Last updated: 14 Aug 2026
 
@@ -115,7 +115,7 @@ Three claims that turned out to be wrong:
 
 ## PAPER EXHIBITS PLANNED
 
-**Tables:** baseline accuracy, question overlap per dataset, leave-top-item-out ,
+**Tables:** baseline accuracy, question overlap per dataset, leave-top-item-out,
 preprocessing effects, comparison to published work
 
 **Figures:** two correlation heatmaps side by side, ablation curves overlaid, preprocessing
