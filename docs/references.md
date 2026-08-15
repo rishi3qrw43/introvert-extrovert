@@ -46,19 +46,29 @@ Available: https://openpsychometrics.org/tests/BIG5.php
 > 19,719 respondents, 50 items. No self-reported introvert/extrovert label, so not usable for
 > the classification comparison. Used descriptively only. Accessed 30 July 2026.
 
+## Leakage and reproducibility
+
+[6] S. Kapoor and A. Narayanan, "Leakage and the reproducibility crisis in machine-learning-based
+science," *Patterns*, vol. 4, no. 9, 2023, doi: 10.1016/j.patter.2023.100804.
+
+> **The anchor citation for this paper.** Documents leakage across 294 papers in 17 disciplines
+> and gives a taxonomy of 8 leakage types. Personality classification is not among the fields
+> surveyed — that is the gap this paper fills. Preprint: arXiv:2207.07048.
+> Accessed 14 August 2026.
+
 ## Methods
 
-[6] S. M. Lundberg and S.-I. Lee, "A unified approach to interpreting model predictions," in
+[7] S. M. Lundberg and S.-I. Lee, "A unified approach to interpreting model predictions," in
 *Advances in Neural Information Processing Systems 30*, 2017, pp. 4765–4774.
 
-[7] N. V. Chawla, K. W. Bowyer, L. O. Hall, and W. P. Kegelmeyer, "SMOTE: Synthetic minority
+[8] N. V. Chawla, K. W. Bowyer, L. O. Hall, and W. P. Kegelmeyer, "SMOTE: Synthetic minority
 over-sampling technique," *Journal of Artificial Intelligence Research*, vol. 16, pp. 321–357,
 2002, doi: 10.1613/jair.953.
 
-[8] Q. McNemar, "Note on the sampling error of the difference between correlated proportions
+[9] Q. McNemar, "Note on the sampling error of the difference between correlated proportions
 or percentages," *Psychometrika*, vol. 12, no. 2, pp. 153–157, 1947.
 
-[9] E. R. Thompson, "Development and validation of an international English mini-markers,"
+[10] E. R. Thompson, "Development and validation of an international English mini-markers,"
 *Personality and Individual Differences*, vol. 45, no. 6, pp. 542–548, 2008,
 doi: 10.1016/j.paid.2008.06.013.
 
@@ -67,20 +77,20 @@ doi: 10.1016/j.paid.2008.06.013.
 
 ## Background
 
-[10] C. G. Jung, *Psychological Types*, H. G. Baynes, Trans. Princeton, NJ: Princeton
+[11] C. G. Jung, *Psychological Types*, H. G. Baynes, Trans. Princeton, NJ: Princeton
 University Press, 1971.
 
-[11] H. J. Eysenck, *The Biological Basis of Personality*. Springfield, IL: Charles C. Thomas,
+[12] H. J. Eysenck, *The Biological Basis of Personality*. Springfield, IL: Charles C. Thomas,
 1967.
 
-[12] S. Cain, *Quiet: The Power of Introverts in a World That Can't Stop Talking*. New York,
+[13] S. Cain, *Quiet: The Power of Introverts in a World That Can't Stop Talking*. New York,
 NY: Crown, 2012.
 
-[13] M. Kosinski, D. Stillwell, and T. Graepel, "Private traits and attributes are predictable
+[14] M. Kosinski, D. Stillwell, and T. Graepel, "Private traits and attributes are predictable
 from digital records of human behavior," *Proceedings of the National Academy of Sciences*,
 vol. 110, no. 15, pp. 5802–5805, 2013, doi: 10.1073/pnas.1218772110.
 
-[14] W. Youyou, M. Kosinski, and D. Stillwell, "Computer-based personality judgments are more
+[15] W. Youyou, M. Kosinski, and D. Stillwell, "Computer-based personality judgments are more
 accurate than those made by humans," *Proceedings of the National Academy of Sciences*,
 vol. 112, no. 4, pp. 1036–1040, 2015, doi: 10.1073/pnas.1418680112.
 

@@ -61,29 +61,20 @@ order does essentially nothing.
 
 ---
 
-## THE FOUR FINDINGS
+## THE FOUR DECISIONS
 
-Full detail with tables in `docs/findings.md`.
+The paper is structured as four decisions a researcher makes, ranked by how much each moves the
+reported accuracy. Full detail in `docs/findings.md`.
 
-1. **Ambiverts in or out swings accuracy ~19 points.** MIES three-class gives .73, two-class
-   gives .92. Reproduces So (73.81%) and Fieri (73.5%) exactly.
-2. **Seven questions carry one question's worth of information.** Mean overlap 0.784 versus
-   0.196 for MIES. Deleting the top-ranked question *improves* two of three models.
-3. **Duplicate rows inflate accuracy, and the raw file already has them.** 27.9% of test rows
-   appear in training before anyone does anything; 486 duplicate rows out of 2,900.
-4. **Resampling before splitting inflates MIES by 21 points.** Matches the 22-point jump Fieri
-   reported. Requires class imbalance and a model that can memorise.
-
----
-
-## PREPROCESSING EFFECTS MEASURED
-
-| Choice | Effect | Where |
+| Decision | Effect | Notes |
 |---|---|---|
-| Include vs. exclude ambiverts | ~19 pts | `models.py` |
-| SMOTE before vs. inside folds | ~21 pts (MIES) | `ordering.py` |
-| Duplicate rows before splitting | ~5.5 pts (RF) | `leakage.py` |
-| Feature selection before vs. inside folds | ~0 pts | `ordering.py` |
+| Include ambiverts? | **~19 pts** | Reproduces So (73.81%) and Fieri (73.5%) exactly |
+| When to resample? | **~21 pts** | Imbalanced data only; matches Fieri's 22-pt jump |
+| De-duplicate rows? | ~5.5 pts | Raw file already leaks 27.9% |
+| Which questions to keep? | **~0 pts** | Because they're near-copies of each other |
+
+**Positioning:** Kapoor & Narayanan (2023) documented leakage across 294 papers in 17 fields
+and built a taxonomy of 8 leakage types. Personality classification was not among them.
 
 ---
 
@@ -91,6 +82,9 @@ Full detail with tables in `docs/findings.md`.
 
 Repeated cross-validation with confidence intervals for every result above, and McNemar's test
 between models. Then Part 6 (synthesis) and Part 7 (writing).
+
+Also outstanding: two figures — correlation heatmaps side by side, and a bar chart of the four
+effects.
 
 ---
 
@@ -105,8 +99,7 @@ between models. Then Part 6 (synthesis) and Part 7 (writing).
 ## STILL OPEN
 
 1. Send Sasha a correction — his email carries the outdated "accuracy way below" claim
-2. Broader literature search, per Anna — general ML already knows preprocessing matters; the
-   contribution is measuring it for this specific task
+2. ~~Broader literature search~~ — done. Kapoor & Narayanan (2023) is the anchor citation.
 
 ---
 
