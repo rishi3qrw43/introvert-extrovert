@@ -3,3 +3,7 @@ __pycache__/
 *.pyc
 .DS_Store
 .venv/
+
+# working notes, not part of the published record
+STATUS.md
+docs/
