@@ -1,4 +1,4 @@
-# PROJECT HUB — read this first
+# PROJECT HUB: read this first
 
 Last updated: 14 Aug 2026
 
@@ -7,7 +7,7 @@ Last updated: 14 Aug 2026
 ## THE QUESTION
 
 How do task definition, repetitive questions, duplicate records, and data-preparation choices
-affect the reported accuracy of introvert–extrovert models?
+affect the reported accuracy of introvert-extrovert models?
 
 **The claim:** reported accuracies in this literature are not comparable across studies, because
 papers differ silently in how they define the task and prepare the data. This paper measures how
@@ -41,11 +41,11 @@ requirements.txt; Random Forest on MIES shifts by ~0.002 under older scikit-lear
 
 ---
 
-## DONE — PARTS 1 THROUGH 4
+## DONE: PARTS 1 THROUGH 4
 
-**Part 1** — data cleaning, row-copying block removed, all preprocessing inside pipelines.
+**Part 1.** Data cleaning, row-copying block removed, all preprocessing inside pipelines.
 
-**Part 2** — baselines:
+**Part 2.** Baselines:
 
 | Dataset | Random Forest | Logistic Regression | XGBoost |
 |---|---|---|---|
@@ -53,10 +53,10 @@ requirements.txt; Random Forest on MIES shifts by ~0.002 under older scikit-lear
 | MIES (2 class) | .9184 | .9203 | .9157 |
 | MIES (3 class) | .7362 | .7341 | .7278 |
 
-**Part 3** — redundancy. All three models rank stage fear first; removing it changes nothing.
+**Part 3.** Redundancy. All three models rank stage fear first; removing it changes nothing.
 Ablation curve flat from 7 questions to 2.
 
-**Part 4** — ordering. SMOTE before splitting inflates MIES by 21 points; feature-selection
+**Part 4.** Ordering. SMOTE before splitting inflates MIES by 21 points; feature-selection
 order does essentially nothing.
 
 ---
@@ -78,12 +78,12 @@ and built a taxonomy of 8 leakage types. Personality classification was not amon
 
 ---
 
-## NEXT — PART 5
+## NEXT: PART 5
 
 Repeated cross-validation with confidence intervals for every result above, and McNemar's test
 between models. Then Part 6 (synthesis) and Part 7 (writing).
 
-Also outstanding: two figures — correlation heatmaps side by side, and a bar chart of the four
+Also outstanding: two figures, correlation heatmaps side by side, and a bar chart of the four
 effects.
 
 ---
@@ -98,8 +98,8 @@ effects.
 
 ## STILL OPEN
 
-1. Send Sasha a correction — his email carries the outdated "accuracy way below" claim
-2. ~~Broader literature search~~ — done. Kapoor & Narayanan (2023) is the anchor citation.
+1. Send Sasha a correction: his email carries the outdated "accuracy way below" claim
+2. ~~Broader literature search~~: done. Kapoor & Narayanan (2023) is the anchor citation.
 
 ---
 
@@ -107,16 +107,16 @@ effects.
 
 Three claims that turned out to be wrong:
 
-1. "Importance rankings are unstable across models" — they're not, +0.50 to +0.82
-2. "The models disagree on the top question" — all three say stage fear
-3. "Redundancy drives accuracy" — the original hypothesis, falsified
+1. "Importance rankings are unstable across models": they're not, +0.50 to +0.82
+2. "The models disagree on the top question": all three say stage fear
+3. "Redundancy drives accuracy": the original hypothesis, falsified
 
 ---
 
 ## PAPER EXHIBITS PLANNED
 
-**Tables:** baseline accuracy · question overlap per dataset · leave-top-item-out ·
-preprocessing effects · comparison to published work
+**Tables:** baseline accuracy, question overlap per dataset, leave-top-item-out ,
+preprocessing effects, comparison to published work
 
-**Figures:** two correlation heatmaps side by side · ablation curves overlaid · preprocessing
+**Figures:** two correlation heatmaps side by side, ablation curves overlaid, preprocessing
 effects bar chart

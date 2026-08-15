@@ -9,7 +9,7 @@ conference; JOIV uses the same style). Annotations note what each source contrib
 
 [1] C. So, "Are you an introvert or extrovert? Accurate classification with only ten
 predictors," in *2020 International Conference on Artificial Intelligence in Information and
-Communication (ICAIIC)*, Fukuoka, Japan, 2020, pp. 1–5, doi: 10.1109/ICAIIC48513.2020.9065069.
+Communication (ICAIIC)*, Fukuoka, Japan, 2020, pp. 1-5, doi: 10.1109/ICAIIC48513.2020.9065069.
 
 > Read in full. Uses MIES, n = 7,161 after removing 27 missing labels, **three classes**
 > (no-information rate 61.51%). Reports 73.81% test accuracy with 10 of 94 features.
@@ -19,7 +19,7 @@ Communication (ICAIIC)*, Fukuoka, Japan, 2020, pp. 1–5, doi: 10.1109/ICAIIC485
 
 [2] B. Fieri, J. La'la, and D. Suhartono, "Introversion-extraversion prediction using machine
 learning," *JOIV: International Journal on Informatics Visualization*, vol. 7, no. 4,
-pp. 2153–2159, 2023, doi: 10.62527/joiv.7.4.1019.
+pp. 2153-2159, 2023, doi: 10.62527/joiv.7.4.1019.
 
 > Read in full. Same MIES dataset (4,404 / 989 / 1,768). Selects 15 of 91 items by Pearson
 > correlation computed on the full dataset. Reports 73.5% on original data, 95.5% with SMOTE,
@@ -53,26 +53,26 @@ science," *Patterns*, vol. 4, no. 9, 2023, doi: 10.1016/j.patter.2023.100804.
 
 > **The anchor citation for this paper.** Documents leakage across 294 papers in 17 disciplines
 > and gives a taxonomy of 8 leakage types. Personality classification is not among the fields
-> surveyed — that is the gap this paper fills. Preprint: arXiv:2207.07048.
+> surveyed. That is the gap this paper fills. Preprint: arXiv:2207.07048.
 > Accessed 14 August 2026.
 
 ## Methods
 
 [7] S. M. Lundberg and S.-I. Lee, "A unified approach to interpreting model predictions," in
-*Advances in Neural Information Processing Systems 30*, 2017, pp. 4765–4774.
+*Advances in Neural Information Processing Systems 30*, 2017, pp. 4765-4774.
 
 [8] N. V. Chawla, K. W. Bowyer, L. O. Hall, and W. P. Kegelmeyer, "SMOTE: Synthetic minority
-over-sampling technique," *Journal of Artificial Intelligence Research*, vol. 16, pp. 321–357,
+over-sampling technique," *Journal of Artificial Intelligence Research*, vol. 16, pp. 321-357,
 2002, doi: 10.1613/jair.953.
 
 [9] Q. McNemar, "Note on the sampling error of the difference between correlated proportions
-or percentages," *Psychometrika*, vol. 12, no. 2, pp. 153–157, 1947.
+or percentages," *Psychometrika*, vol. 12, no. 2, pp. 153-157, 1947.
 
 [10] E. R. Thompson, "Development and validation of an international English mini-markers,"
-*Personality and Individual Differences*, vol. 45, no. 6, pp. 542–548, 2008,
+*Personality and Individual Differences*, vol. 45, no. 6, pp. 542-548, 2008,
 doi: 10.1016/j.paid.2008.06.013.
 
-> Precedent for reducing a personality scale to fewer items — the psychology-side analogue of
+> Precedent for reducing a personality scale to fewer items. This is the psychology-side analogue of
 > our ablation analysis.
 
 ## Background
@@ -88,15 +88,15 @@ NY: Crown, 2012.
 
 [14] M. Kosinski, D. Stillwell, and T. Graepel, "Private traits and attributes are predictable
 from digital records of human behavior," *Proceedings of the National Academy of Sciences*,
-vol. 110, no. 15, pp. 5802–5805, 2013, doi: 10.1073/pnas.1218772110.
+vol. 110, no. 15, pp. 5802-5805, 2013, doi: 10.1073/pnas.1218772110.
 
 [15] W. Youyou, M. Kosinski, and D. Stillwell, "Computer-based personality judgments are more
 accurate than those made by humans," *Proceedings of the National Academy of Sciences*,
-vol. 112, no. 4, pp. 1036–1040, 2015, doi: 10.1073/pnas.1418680112.
+vol. 112, no. 4, pp. 1036-1040, 2015, doi: 10.1073/pnas.1418680112.
 
 ---
 
-## Not verified — do not cite without reading
+## Not verified: do not cite without reading
 
 - A. Naz et al., "AI knows you: Deep learning model for prediction of extroversion personality
   trait," *IEEE Access*, 2024. Metadata from search results only.
@@ -107,15 +107,15 @@ vol. 112, no. 4, pp. 1036–1040, 2015, doi: 10.1073/pnas.1418680112.
 
 ## Zenodo metadata checklist
 
-Zenodo does not impose a citation style or a paper template — the reference format above is
+Zenodo does not impose a citation style or a paper template. The reference format above is
 our choice. What Zenodo asks for is metadata describing the record:
 
 | Field | Value for this project |
 |---|---|
-| Resource type | Publication → Preprint (paper); Software (code, separate record) |
+| Resource type | Preprint (for the paper); Software (for the code, as a separate record) |
 | Title | final paper title |
 | Publication date | date of upload |
-| Creators | Rishi Vora, Dipa Vora — plus ORCID if registered |
+| Creators | Rishi Vora, Dipa Vora (plus ORCID if registered) |
 | Description | the abstract, as plain text |
 | License | CC BY 4.0 for the paper; MIT or Apache-2.0 for the code |
 | Keywords | introversion, extraversion, personality classification, machine learning, data leakage, reproducibility |
