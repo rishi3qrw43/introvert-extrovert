@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 title: >-
-  Preprocessing choices and reported accuracy in introvert-extrovert
-  classification
+  Preprocessing choices account for a 23-point spread in reported accuracy for
+  introvert-extrovert classification
 message: Please cite this software if you use it.
 type: software
 authors:
@@ -9,5 +9,12 @@ authors:
     family-names: Vora
   - given-names: Dipa
     family-names: Vora
-repository-code: https://github.com/rishivora/introvert-extrovert
+repository-code: https://github.com/rishi3qrw43/introvert-extrovert
 license: MIT
+keywords:
+  - introversion
+  - extraversion
+  - personality classification
+  - machine learning
+  - data leakage
+  - reproducibility

@@ -1,4 +1,4 @@
-# Preprocessing choices and reported accuracy in introvert-extrovert classification
+# Preprocessing choices account for a 23-point spread in reported accuracy for introvert-extrovert classification
 
 Published accuracies for classifying introverts and extroverts range from about 73% to over
 95%. This project measures how much of that spread comes from preprocessing decisions rather
