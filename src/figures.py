@@ -40,26 +40,35 @@ def heatmaps():
     plt.close(fig)
 
 
-def effects():
-    # effect sizes and 95% intervals from intervals.py, random forest
-    data = [
-        ('Ambiverts dropped\nvs. kept', 23.48, 0.56),
-        ('Resampling before\nvs. inside folds', 20.61, 0.42),
-        ('Duplicates kept\nvs. removed', -1.47, 0.38),
-        ('Selection before\nvs. inside folds', 0.04, 0.56),
-    ]
-    names, values, errs = zip(*data)
+CONDITIONS = [
+    ('Ambiverts dropped vs. kept', 'Ambiverts dropped\nvs. kept'),
+    ('Resampling before vs. inside folds', 'Resampling before\nvs. inside folds'),
+    ('Duplicates kept vs. removed', 'Duplicates kept\nvs. removed'),
+    ('Selection before vs. inside folds', 'Selection before\nvs. inside folds'),
+]
+MODELS = [('Random Forest', '0.25'), ('Logistic Regression', '0.5'), ('XGBoost', '0.72')]
 
-    fig, ax = plt.subplots(figsize=(6, 3.5))
-    ax.barh(range(len(values)), values, xerr=errs, color='0.4', height=0.6,
-            error_kw={'ecolor': '0.1', 'capsize': 3, 'lw': 1})
+
+def effects():
+    table = pd.read_csv('interval_results.csv').set_index(['model', 'effect'])
+    keys = [k for k, _ in CONDITIONS]
+
+    fig, ax = plt.subplots(figsize=(6.5, 4))
+    height = 0.26
+    for i, (model, shade) in enumerate(MODELS):
+        rows = table.loc[model].loc[keys]
+        y = np.arange(len(keys)) + (i - 1) * height
+        ax.barh(y, rows['points'], height=height, color=shade, label=model,
+                xerr=(rows['high'] - rows['low']) / 2,
+                error_kw={'ecolor': '0.1', 'capsize': 2, 'lw': 0.8})
+
     ax.axvline(0, color='0.1', lw=0.8)
-    ax.set_yticks(range(len(names)))
-    ax.set_yticklabels(names, fontsize=8)
+    ax.set_yticks(range(len(keys)))
+    ax.set_yticklabels([label for _, label in CONDITIONS], fontsize=8)
     ax.invert_yaxis()
-    ax.set_xlabel('Change in accuracy (percentage points)', fontsize=10)
-    for i, v in enumerate(values):
-        ax.text(v + (0.7 if v >= 0 else -2.3), i, f'{v:+.1f}', va='center', fontsize=8)
+    ax.set_xlabel('Change in balanced accuracy (percentage points)', fontsize=10)
+    ax.tick_params(axis='x', labelsize=8)
+    ax.legend(fontsize=8, loc='lower right', frameon=False)
     ax.set_xlim(-4, 27)
     fig.savefig('figures/effect_sizes.pdf', bbox_inches='tight')
     fig.savefig('figures/effect_sizes.png', dpi=150, bbox_inches='tight')
