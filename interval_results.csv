@@ -1,13 +1,13 @@
 effect,dataset,model,points,low,high,crosses_zero
-Ambiverts dropped vs. kept,MIES,Random Forest,23.46,22.94,23.99,False
-Resampling before vs. inside folds,MIES,Random Forest,20.69,20.28,21.11,False
-Duplicates kept vs. removed,Kaggle,Random Forest,-1.47,-1.85,-1.1,False
-Selection before vs. inside folds,MIES,Random Forest,0.08,-0.46,0.63,True
-Ambiverts dropped vs. kept,MIES,Logistic Regression,22.76,22.2,23.33,False
-Resampling before vs. inside folds,MIES,Logistic Regression,5.68,5.19,6.17,False
-Duplicates kept vs. removed,Kaggle,Logistic Regression,-1.41,-1.83,-1.0,False
-Selection before vs. inside folds,MIES,Logistic Regression,-0.0,-0.46,0.46,True
-Ambiverts dropped vs. kept,MIES,XGBoost,22.88,22.29,23.46,False
-Resampling before vs. inside folds,MIES,XGBoost,18.33,17.9,18.77,False
-Duplicates kept vs. removed,Kaggle,XGBoost,-0.5,-0.88,-0.12,False
-Selection before vs. inside folds,MIES,XGBoost,0.1,-0.43,0.62,True
+Ambiverts dropped vs. kept,MIES,Random Forest,23.46,21.54,25.39,False
+Resampling before vs. inside folds,MIES,Random Forest,20.69,19.17,22.21,False
+Duplicates kept vs. removed,Kaggle,Random Forest,-1.47,-2.87,-0.08,False
+Selection before vs. inside folds,MIES,Random Forest,0.08,-1.92,2.09,True
+Ambiverts dropped vs. kept,MIES,Logistic Regression,22.76,20.69,24.84,False
+Resampling before vs. inside folds,MIES,Logistic Regression,5.68,3.87,7.48,False
+Duplicates kept vs. removed,Kaggle,Logistic Regression,-1.41,-2.94,0.11,True
+Selection before vs. inside folds,MIES,Logistic Regression,-0.0,-1.7,1.7,True
+Ambiverts dropped vs. kept,MIES,XGBoost,22.88,20.72,25.03,False
+Resampling before vs. inside folds,MIES,XGBoost,18.33,16.72,19.95,False
+Duplicates kept vs. removed,Kaggle,XGBoost,-0.5,-1.9,0.89,True
+Selection before vs. inside folds,MIES,XGBoost,0.1,-1.83,2.03,True

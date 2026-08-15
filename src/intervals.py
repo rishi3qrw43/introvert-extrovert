@@ -24,7 +24,7 @@ def fold_scores(model, X, y):
 
 
 def interval(a, b):
-    """Difference in means, with a 95% interval from the pooled fold variance."""
+    """Difference in mean scores with a 95% interval from the pooled fold variance."""
     diff = a.mean() - b.mean()
     se = np.sqrt(a.var(ddof=1) / len(a) + b.var(ddof=1) / len(b))
     return 100 * diff, 100 * 1.96 * se
