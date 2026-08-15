@@ -1,72 +1,89 @@
 # Preprocessing choices account for a 23-point spread in reported accuracy for introvert-extrovert classification
 
-Published accuracies for classifying introverts and extroverts range from about 73% to over
-95%. This project measures how much of that spread comes from preprocessing decisions rather
-than from the data itself.
+Published accuracies for classifying introverts and extroverts from self-report data range from
+roughly 73% to over 95%. This code measures how much of that spread is produced by preprocessing
+decisions rather than by differences in the data itself.
 
-Four decisions are tested, and the effect of each is measured on the same datasets:
+Four decisions are isolated and measured on the same datasets, each across 50 folds (5-fold
+cross-validation, 10 repeats) with 95% intervals:
 
-| Decision | Change in accuracy |
-|---|---|
-| Resampling before splitting vs. inside cross-validation folds | 21.1 points |
-| Keeping vs. dropping respondents who identify as neither | 18.2 points |
-| Keeping vs. removing duplicate rows | 5.5 points |
-| Feature selection before splitting vs. inside folds | 0.0 points |
+| Decision | Effect on balanced accuracy | 95% interval |
+|---|---|---|
+| Excluding respondents who identify as neither introvert nor extravert | +22.9 to +23.5 points | 22.3 to 24.0 |
+| Applying resampling before splitting rather than inside folds | +18.3 to +20.7 points | 17.9 to 21.1 |
+| Retaining duplicate rows | -0.5 to -1.5 points | -1.9 to -0.1 |
+| Selecting features before splitting rather than inside folds | +0.1 points | -0.46 to +0.63 |
 
-## Data
+The final row is the only one whose interval includes zero, so feature-selection order has no
+measurable effect while the other three do.
 
-Neither dataset is included here. Download them and place them in `data/`:
-
-- **Kaggle.** Extrovert vs. Introvert Behavior Data.
-  https://www.kaggle.com/datasets/rakeshkapilavai/extrovert-vs-introvert-behavior-data
-  Save as `data/personality_dataset.csv`
-
-- **MIES.** Multidimensional Introversion-Extraversion Scales, Open-Source Psychometrics
-  Project. https://openpsychometrics.org/tests/MIES/development/
-  Unzip and save the tab-separated file as `data/MIES_data.csv`
-
-- **BIG5** (optional, used for one comparison figure).
-  https://openpsychometrics.org/tests/BIG5.php
-  Save as `data/BIG5_data.csv`
-
-MIES asks respondents whether they identify as introvert, extravert, or neither. Results differ
-substantially depending on whether the third group is kept, so both versions are reported.
-
-## Setup
+## Requirements
 
 ```
 pip install -r requirements.txt
 ```
 
-XGBoost needs OpenMP. On macOS: `brew install libomp`.
+Package versions are pinned. XGBoost requires OpenMP; on macOS install it with
+`brew install libomp`.
 
-## Running
+## Data
 
-From the project root:
+The datasets are not redistributed here. Download each and place it in `data/`.
 
-```
-python src/models.py         # baseline accuracy, all datasets and models
-python src/dataset_stats.py  # how much the questions overlap
-python src/leakage.py        # duplicate rows and their effect
-python src/ordering.py       # resampling and feature-selection order
-python src/redundancy.py     # SHAP, ablation curve, leave-top-item-out (slow)
-python src/figures.py        # figures
-```
+| File | Source |
+|---|---|
+| `data/personality_dataset.csv` | https://www.kaggle.com/datasets/rakeshkapilavai/extrovert-vs-introvert-behavior-data |
+| `data/MIES_data.csv` | https://openpsychometrics.org/tests/MIES/development/ |
+| `data/BIG5_data.csv` | https://openpsychometrics.org/tests/BIG5.php |
 
-Each writes a CSV to the project root. `redundancy.py` and `figures.py` also write to
-`figures/`.
+MIES and BIG5 are distributed as zip archives; extract the tab-separated data file and rename
+it as shown. BIG5 is optional and used only for one comparison figure.
 
-## Files
+MIES asks respondents to identify as introvert, extravert, or neither. Both the two-class and
+three-class versions are reported, since the choice materially changes the result.
 
-- `src/prep.py` loading and cleaning for both datasets
-- `src/models.py` baseline models
-- `src/dataset_stats.py` correlation between questions, per dataset
-- `src/leakage.py` duplicate overlap between train and test
-- `src/ordering.py` effect of preprocessing order
-- `src/redundancy.py` feature importance and ablation
-- `src/figures.py` correlation heatmaps and effect sizes
+## Usage
+
+Run from the project root.
+
+| Command | Output |
+|---|---|
+| `python src/models.py` | `baseline_results.csv` |
+| `python src/dataset_stats.py` | `dataset_stats.csv` |
+| `python src/leakage.py` | `leakage_results.csv` |
+| `python src/ordering.py` | `ordering_results.csv` |
+| `python src/intervals.py` | `interval_results.csv` |
+| `python src/redundancy.py` | `redundancy_results.csv`, ablation figures |
+| `python src/figures.py` | correlation heatmaps, effect-size chart |
+
+`redundancy.py` and `intervals.py` take several minutes; the others complete in seconds.
+
+## Contents
+
+| Path | Purpose |
+|---|---|
+| `src/prep.py` | Loading and cleaning for both datasets |
+| `src/models.py` | Baseline models across dataset versions |
+| `src/dataset_stats.py` | Correlation between questionnaire items |
+| `src/leakage.py` | Duplicate overlap between training and test sets |
+| `src/ordering.py` | Effect of preprocessing order |
+| `src/intervals.py` | Repeated cross-validation with confidence intervals |
+| `src/redundancy.py` | Feature importance and ablation |
+| `src/figures.py` | Figure generation |
+| `figures/` | PDF and PNG output |
+
+Three models are used throughout: random forest, logistic regression, and XGBoost.
 
 ## Reproducibility
 
-All scripts use a fixed random seed. Package versions are pinned in `requirements.txt`;
-Random Forest results on MIES shift by about 0.002 under older scikit-learn releases.
+All scripts use a fixed random seed. Preprocessing steps are contained within scikit-learn
+pipelines so that they are fitted on training folds only. Random forest results on MIES shift by
+approximately 0.002 under scikit-learn releases earlier than the pinned version.
+
+## Citation
+
+See `CITATION.cff`.
+
+## License
+
+MIT. See `LICENSE`.
