@@ -61,4 +61,4 @@ if __name__ == '__main__':
     table = pd.DataFrame(results)
     table[['accuracy', 'balanced_accuracy']] = table[['accuracy', 'balanced_accuracy']].round(4)
     print(table.to_string(index=False))
-    table.to_csv('baseline_results.csv', index=False)
+    table.to_csv('results/baseline_results.csv', index=False)

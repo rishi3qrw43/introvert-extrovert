@@ -77,4 +77,4 @@ if __name__ == '__main__':
     table['select_gap'] = (table['select_before_split'] - table['select_inside_folds']).round(4)
 
     print(table.to_string(index=False))
-    table.to_csv('ordering_results.csv', index=False)
+    table.to_csv('results/ordering_results.csv', index=False)

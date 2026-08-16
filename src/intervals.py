@@ -96,4 +96,4 @@ if __name__ == '__main__':
     table = table.drop(columns='ci95')
 
     print(table.to_string(index=False))
-    table.to_csv('interval_results.csv', index=False)
+    table.to_csv('results/interval_results.csv', index=False)

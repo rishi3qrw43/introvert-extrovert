@@ -50,7 +50,7 @@ MODELS = [('Random Forest', '0.25'), ('Logistic Regression', '0.5'), ('XGBoost',
 
 
 def effects():
-    table = pd.read_csv('interval_results.csv').set_index(['model', 'effect'])
+    table = pd.read_csv('results/interval_results.csv').set_index(['model', 'effect'])
     keys = [k for k, _ in CONDITIONS]
 
     fig, ax = plt.subplots(figsize=(6.5, 4))

@@ -45,4 +45,4 @@ if __name__ == '__main__':
 
     table = pd.DataFrame(rows)
     print(table.to_string(index=False))
-    table.to_csv('dataset_stats.csv', index=False)
+    table.to_csv('results/dataset_stats.csv', index=False)

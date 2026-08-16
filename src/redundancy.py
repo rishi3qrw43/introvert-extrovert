@@ -121,7 +121,7 @@ if __name__ == '__main__':
     print()
     drops = pd.DataFrame(all_drops)
     print(drops.to_string(index=False))
-    drops.to_csv('redundancy_results.csv', index=False)
+    drops.to_csv('results/redundancy_results.csv', index=False)
 
     print()
     print('Importance rank agreement (Spearman)')

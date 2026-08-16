@@ -60,4 +60,4 @@ if __name__ == '__main__':
 
     table = pd.DataFrame(rows).sort_values(['model', 'condition'])
     print(table.to_string(index=False))
-    table.to_csv('leakage_results.csv', index=False)
+    table.to_csv('results/leakage_results.csv', index=False)
