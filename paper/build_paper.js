@@ -239,7 +239,6 @@ const doc = new Document({
       P('A single random seed of 42 is applied to every estimator, to SMOTE, and to the cross-validation splitter, and all folds are stratified. Imputation, scaling, resampling, and feature selection run inside the pipeline so that they are fitted on training folds only, except where a condition deliberately does otherwise in order to measure the effect, and missing MIES responses are imputed with the training-fold median. Every table in this paper is produced by a named script in the repository listed under Code and Data Availability.'),
 
       H1('V. Results and Analysis'),
-      P('Table 1 gives baseline accuracy for each dataset and model on a single split, and Table 2 gives the effect of each condition measured across 50 fits. Figure 1 shows the same effects for all three models.'),
 
       H2('A. Baseline Accuracy'),
       table1,
@@ -287,7 +286,7 @@ const doc = new Document({
       H1('VI. Discussion'),
       P('The four conditions do not behave alike. Two of them move reported accuracy by roughly 20 points, one moves it by about one point, and one produces nothing measurable. That spread is the main practical result. It means these choices cannot all be treated as minor details of method.'),
       P('The class-structure result is the one most likely to be misread. Dropping ambiverts is a legitimate choice, but two-class and three-class results answer different questions, and the gap between them is large enough to account for most of the range seen in published work on this instrument.'),
-      P('The resampling effect depends on conditions that are easy to overlook. It needs class imbalance, and it needs a model flexible enough to exploit the extra rows, so a study that resampled before splitting on balanced data with a linear model would see almost nothing and might conclude the practice is harmless.'),
+      P('A study that resampled before splitting on balanced data with a linear model would see almost nothing from it, and might reasonably conclude the practice is harmless.'),
 
       H1('VII. Limitations'),
       P('The following limitations qualify how far these results should be carried:'),
@@ -298,7 +297,7 @@ const doc = new Document({
       BULLET('No claim about published code. Where published figures are placed beside mine, the comparison is between reported numbers. I have not inspected the code behind any published result and make no claim about what produced those numbers.'),
 
       H1('VIII. Conclusion'),
-      P('I measured how much four data preparation decisions change the reported accuracy of introvert-extrovert classification, holding the datasets and models fixed. Dropping respondents who identify as neither raises balanced accuracy by about 23 points, though it also changes the task. Resampling before rather than inside cross-validation folds raises it by up to 21 points on imbalanced data and by almost nothing on balanced data. Keeping duplicate rows changes it by about one point. The order of feature selection produces no measurable change.'),
+      P('I measured how much four data preparation decisions change the reported accuracy of introvert-extrovert classification, holding the datasets and models fixed. Two of them move balanced accuracy by roughly 20 points, one moves it by about a point, and one does nothing measurable.'),
       P('Two conclusions follow. Reported accuracies for this task are difficult to compare across studies when the class structure and the preprocessing order are not stated, and a reader has no way to tell which version of the task a number describes. And the choices are not equally consequential, so a reader checking a reported number should know which ones to ask about.'),
 
       H1('Code and Data Availability'),
