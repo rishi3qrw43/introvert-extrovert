@@ -10,8 +10,8 @@ models fixed: whether to keep respondents who identify as neither introvert nor 
 to resample before or inside cross-validation folds, whether to remove duplicate rows, and whether
 to select features before or inside folds. Each condition is evaluated with 5-fold cross-validation
 repeated 10 times. Dropping the ambivert group raises balanced accuracy by 22.8 to 23.5 points.
-Applying SMOTE before splitting rather than within each training fold raises it by 18.4 to 20.6
-points on the imbalanced dataset and by under 0.5 points on the balanced one. Keeping duplicate
+Applying SMOTE before splitting rather than within each training fold raises it by 5.7 to 20.6
+points on the imbalanced dataset depending on the model, and by under 0.5 points on the balanced one. Keeping duplicate
 rows changes it by about one point. Feature-selection order shows no measurable effect.
 
 ## Setup
