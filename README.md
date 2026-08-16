@@ -72,7 +72,7 @@ Run from the project root.
 | `python src/leakage.py` | `leakage_results.csv` | Section V.E |
 | `python src/ordering.py` | `ordering_results.csv` | Section V.D, V.F |
 | `python src/intervals.py` | `interval_results.csv` | Table 2, Figure 1 |
-| `python src/redundancy.py` | `redundancy_results.csv`, ablation figures | Figure 3 |
+| `python src/redundancy.py` | `redundancy_results.csv`, ablation figures | Section V.G |
 | `python src/figures.py` | correlation heatmaps, effect-size chart | Figures 1, 2 |
 
 `redundancy.py` and `intervals.py` take several minutes; the others complete in seconds.
