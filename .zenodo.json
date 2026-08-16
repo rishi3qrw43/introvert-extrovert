@@ -1,0 +1,33 @@
+{
+  "title": "Analysis code for \"Measuring How Preprocessing Choices Affect Reported Accuracy in Introvert-Extrovert Classification\"",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "MIT",
+  "creators": [
+    {
+      "name": "Vora, Rishi",
+      "affiliation": "Northside College Prep"
+    }
+  ],
+  "description": "Python code that measures how four data preparation decisions change the reported accuracy of introvert-extrovert classification: whether respondents who identify as neither are kept, whether resampling happens before or inside cross-validation folds, whether duplicate rows are removed, and whether feature selection happens before or inside folds. Each condition is evaluated with 5-fold cross-validation repeated 10 times on a public Kaggle dataset and on the Multidimensional Introversion-Extraversion Scales development data. The datasets themselves are not redistributed; the repository documents where to download each one. Every table and figure in the accompanying preprint is produced by a named script here.",
+  "keywords": [
+    "introversion",
+    "extraversion",
+    "personality classification",
+    "machine learning",
+    "data leakage",
+    "preprocessing",
+    "cross-validation",
+    "SMOTE",
+    "class imbalance",
+    "feature selection",
+    "reproducibility"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.21955709",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-preprint"
+    }
+  ]
+}
