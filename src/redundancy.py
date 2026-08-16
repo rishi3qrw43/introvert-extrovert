@@ -83,14 +83,22 @@ def run(X, y, label):
     return importances, top_items, drop_results, curves
 
 
+STYLES = [('0.15', '-', 'o'), ('0.45', '--', 's'), ('0.65', ':', '^')]
+
+
 def plot_curves(curves, stem):
     fig, ax = plt.subplots(figsize=(5.5, 4))
-    for name, points in curves.items():
+    for (name, points), (shade, dash, mark) in zip(curves.items(), STYLES):
         n, score = zip(*points)
-        ax.plot(n, score, label=name, linewidth=1.2)
+        ax.plot(n, score, label=name, color=shade, linestyle=dash,
+                marker=mark, markersize=4, linewidth=1.2)
+    ax.axhline(0.5, color='0.1', lw=0.8)
+    ax.text(ax.get_xlim()[0], 0.512, 'chance', fontsize=8, color='0.1')
+    # full scale, so a flat curve reads as flat rather than as noise
+    ax.set_ylim(0.45, 1.0)
     ax.set_xlabel('Questions remaining', fontsize=11)
     ax.set_ylabel('Balanced accuracy', fontsize=11)
-    ax.legend(fontsize=9, frameon=False)
+    ax.legend(fontsize=9, frameon=False, loc='lower right')
     fig.savefig(f'figures/{stem}.pdf', bbox_inches='tight')
     fig.savefig(f'figures/{stem}.png', dpi=150, bbox_inches='tight')
     plt.close(fig)

@@ -44,7 +44,7 @@ python src/intervals.py       # Table 2
 python src/dataset_stats.py   # Table 3
 python src/leakage.py         # duplicate overlap
 python src/ordering.py        # preprocessing order
-python src/redundancy.py      # feature importance and ablation
+python src/redundancy.py      # feature importance, Figure 3
 python src/figures.py         # Figures 1 and 2
 ```
 
