@@ -3,8 +3,9 @@ __pycache__/
 *.pyc
 .DS_Store
 .venv/
-paper/node_modules/
-paper/*.pdf
+
+# manuscript and its build tooling, published separately on Zenodo
+paper/
 
 # working notes, not part of the published record
 STATUS.md
