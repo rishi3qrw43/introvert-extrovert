@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 title: >-
-  Analysis code for "Measuring How Preprocessing Choices Affect Reported Accuracy
-  in Introvert-Extrovert Classification"
+  Analysis code for "Measuring How Data Preparation and Task Definition Choices
+  Affect Reported Accuracy in Introvert-Extrovert Classification"
 message: Please cite this software if you use it.
 type: software
 authors:
@@ -25,8 +25,8 @@ keywords:
 preferred-citation:
   type: article
   title: >-
-    Measuring How Preprocessing Choices Affect Reported Accuracy in
-    Introvert-Extrovert Classification
+    Measuring How Data Preparation and Task Definition Choices Affect Reported
+    Accuracy in Introvert-Extrovert Classification
   authors:
     - given-names: Rishi
       family-names: Vora

@@ -1,18 +1,19 @@
-# Measuring How Preprocessing Choices Affect Reported Accuracy in Introvert-Extrovert Classification
+# Measuring How Data Preparation and Task Definition Choices Affect Reported Accuracy in Introvert-Extrovert Classification
 
-Python code for the paper entitled: "Measuring How Preprocessing Choices Affect Reported Accuracy
-in Introvert-Extrovert Classification" (2026). R. Vora.
+Python code for the paper entitled: "Measuring How Data Preparation and Task Definition Choices
+Affect Reported Accuracy in Introvert-Extrovert Classification" (2026). R. Vora.
 https://doi.org/10.5281/zenodo.21955709
 
 Abstract: Reported accuracies for classifying introverts and extroverts from self-report data vary
-widely. I measure how much four preparation decisions move that number, holding the data and the
-models fixed: whether to keep respondents who identify as neither introvert nor extrovert, whether
-to resample before or inside cross-validation folds, whether to remove duplicate rows, and whether
-to select features before or inside folds. Each condition is evaluated with 5-fold cross-validation
-repeated 10 times. Dropping the ambivert group raises balanced accuracy by 22.8 to 23.5 points.
-Applying SMOTE before splitting rather than within each training fold raises it by 5.7 to 20.6
-points on the imbalanced dataset depending on the model, and by under 0.5 points on the balanced one. Keeping duplicate
-rows changes it by about one point. Feature-selection order shows no measurable effect.
+widely. I measure how much four data preparation and task definition choices move that number,
+holding the data and the models fixed: whether to keep respondents who identify as neither introvert
+nor extrovert, whether to apply SMOTE before or inside cross-validation folds, whether to remove
+duplicate rows, and whether to select features before or inside folds. Each condition is evaluated
+with 5-fold cross-validation repeated 10 times. Dropping the ambivert group raises balanced accuracy
+by 22.8 to 23.5 points. Applying SMOTE before splitting rather than within each training fold raises
+it by 5.7 to 20.6 points on the imbalanced dataset depending on the model, and by under 0.5 points
+on the balanced one. Keeping duplicate rows raises it by 0.9 to 2.0 points. Feature-selection order
+shows no measurable effect.
 
 ## Setup
 
