@@ -1,10 +1,10 @@
 condition,model,n,accuracy,test_rows_seen_in_training
-de-duplicated,Logistic Regression,2414,0.9441,0.0
-duplicated before split,Logistic Regression,17400,0.9141,0.944
-original,Logistic Regression,2900,0.9121,0.279
-de-duplicated,Random Forest,2414,0.9358,0.0
-duplicated before split,Random Forest,17400,0.9658,0.944
-original,Random Forest,2900,0.9103,0.279
-de-duplicated,XGBoost,2414,0.942,0.0
-duplicated before split,XGBoost,17400,0.9307,0.944
-original,XGBoost,2900,0.9207,0.279
+de-duplicated,Logistic Regression,2474,0.9071,0.0
+duplicated before split,Logistic Regression,17400,0.9141,0.941
+original,Logistic Regression,2900,0.9121,0.25
+de-duplicated,Random Forest,2474,0.897,0.0
+duplicated before split,Random Forest,17400,0.9658,0.941
+original,Random Forest,2900,0.9103,0.25
+de-duplicated,XGBoost,2474,0.9293,0.0
+duplicated before split,XGBoost,17400,0.9307,0.941
+original,XGBoost,2900,0.9207,0.25
