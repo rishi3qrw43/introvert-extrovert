@@ -11,25 +11,30 @@ from prep import SEED, load_kaggle, load_mies
 from models import build_models
 
 
-def shap_importance(name, model, X_train, X_test):
-    """Mean absolute SHAP value per feature. Returns a Series indexed by feature."""
+def shap_importance(name, model, X_train):
+    """Mean absolute SHAP value per feature, computed on the training rows only.
+
+    Explaining the training rows keeps the item ranking independent of the
+    held-out rows the ablation is later scored on. Explaining the test rows
+    would let the ranking see the evaluation set.
+    """
     if name == 'Logistic Regression':
         # the model is a pipeline, so push the data through the earlier steps
         # and explain the linear step on its own
         prepared = model[:-1].transform(X_train)
         masker = shap.maskers.Independent(prepared, max_samples=len(prepared))
         explainer = shap.LinearExplainer(model[-1], masker)
-        values = explainer.shap_values(model[:-1].transform(X_test))
+        values = explainer.shap_values(prepared)
     else:
         inner = model[-1] if hasattr(model, 'steps') else model
-        data = model[:-1].transform(X_test) if hasattr(model, 'steps') else X_test
+        data = model[:-1].transform(X_train) if hasattr(model, 'steps') else X_train
         explainer = shap.TreeExplainer(inner)
         values = explainer.shap_values(data)
 
     values = np.array(values)
     if values.ndim == 3:
         values = np.abs(values).mean(axis=2)
-    return pd.Series(np.abs(values).mean(axis=0), index=X_test.columns)
+    return pd.Series(np.abs(values).mean(axis=0), index=X_train.columns)
 
 
 def ablation(model_name, X_train, X_test, y_train, y_test, order):
@@ -59,7 +64,7 @@ def run(X, y, label):
         model.fit(X_train, y_train)
         full = balanced_accuracy_score(y_test, model.predict(X_test))
 
-        imp = shap_importance(name, model, X_train, X_test).sort_values(ascending=False)
+        imp = shap_importance(name, model, X_train).sort_values(ascending=False)
         importances[name] = imp
         top_items[name] = imp.index[0]
 
