@@ -58,9 +58,18 @@ def selection_effect(X, y, model, k=N_FEATURES):
 
 
 def duplication_effect(X, y, model):
-    unique = X.drop_duplicates()
+    """Effect of keeping duplicate rows.
+
+    A duplicate is a row whose predictor vector and label both match an
+    earlier row. Deduplicating on the predictors alone would also collapse
+    the 60 predictor vectors that carry both labels, which removes genuine
+    label conflict rather than train-test overlap.
+    """
+    pairs = X.copy()
+    pairs['_label'] = y
+    keep = pairs.drop_duplicates().index
     a = fold_scores(model, X, y)
-    b = fold_scores(model, unique, y[unique.index])
+    b = fold_scores(model, X.loc[keep], y[keep])
     return interval(a, b)
 
 

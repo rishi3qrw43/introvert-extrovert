@@ -7,10 +7,11 @@ from prep import SEED, load_kaggle
 from models import build_models
 
 
-def duplicate_overlap(X_train, X_test):
-    """Share of test rows that appear identically in the training set."""
-    train_rows = set(map(tuple, X_train.round(6).to_numpy()))
-    hits = sum(tuple(row) in train_rows for row in X_test.round(6).to_numpy())
+def duplicate_overlap(X_train, y_train, X_test, y_test):
+    """Share of test rows whose predictor vector and label both appear in training."""
+    train_rows = set(map(tuple, np.column_stack([X_train.round(6).to_numpy(), y_train])))
+    test_rows = np.column_stack([X_test.round(6).to_numpy(), y_test])
+    hits = sum(tuple(row) in train_rows for row in test_rows)
     return hits / len(X_test)
 
 
@@ -33,7 +34,7 @@ def score(X, y, model_name):
     model = build_models()[model_name]
     model.fit(X_train, y_train)
     return (accuracy_score(y_test, model.predict(X_test)),
-            duplicate_overlap(X_train, X_test))
+            duplicate_overlap(X_train, y_train, X_test, y_test))
 
 
 if __name__ == '__main__':
@@ -52,10 +53,12 @@ if __name__ == '__main__':
                      'n': len(X_big), 'accuracy': round(acc, 4),
                      'test_rows_seen_in_training': round(overlap, 3)})
 
-        unique = X.drop_duplicates()
-        acc, overlap = score(unique, y[unique.index], model_name)
+        pairs = X.copy()
+        pairs['_label'] = y
+        keep = pairs.drop_duplicates().index
+        acc, overlap = score(X.loc[keep], y[keep], model_name)
         rows.append({'condition': 'de-duplicated', 'model': model_name,
-                     'n': len(unique), 'accuracy': round(acc, 4),
+                     'n': len(keep), 'accuracy': round(acc, 4),
                      'test_rows_seen_in_training': round(overlap, 3)})
 
     table = pd.DataFrame(rows).sort_values(['model', 'condition'])
